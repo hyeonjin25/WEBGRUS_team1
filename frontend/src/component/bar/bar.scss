@@ -1,0 +1,27 @@
+.nav {
+  ul {
+    display: flex;
+  }
+  li {
+    all: unset;
+    margin-right: 20px;
+  }
+  a {
+    text-decoration: unset;
+    font-size: 15px;
+    color: black;
+  }
+  a:hover {
+    font-weight: 900;
+  }
+  .homename {
+    margin-left: 20px;
+  }
+  button {
+    all: unset;
+    font-size: 15px;
+  }
+  button:hover {
+    font-weight: 900;
+  }
+}

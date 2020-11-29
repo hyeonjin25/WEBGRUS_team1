@@ -7,6 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { withRouter } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 import { loginUser } from "../_actions/userAction";
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn(props) {
+function SignIn(props) {
   const dispatch = useDispatch();
 
   const classes = useStyles();
@@ -57,7 +58,7 @@ export default function SignIn(props) {
       if (response.payload.loginSuccess) {
         props.history.push("/");
       } else {
-        alert(response.payload.message);
+        alert("로그인에 실패했습니다.");
       }
     });
   };
@@ -120,3 +121,5 @@ export default function SignIn(props) {
     </Container>
   );
 }
+
+export default withRouter(SignIn);

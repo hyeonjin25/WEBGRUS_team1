@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import "./bar.scss";
 import Menubar from "./menubar";
 
-function Rightnav(props) {
+function Rightnav() {
   // id가 있으면 로그인 된걸로 간주
-  const userlogined = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
 
-  if (userlogined) {
+  if (user.userData && user.userData.isAuth) {
     return (
       <div className='nav'>
         <ul>

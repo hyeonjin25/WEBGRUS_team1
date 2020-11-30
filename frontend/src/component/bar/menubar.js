@@ -4,9 +4,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { SERVER_API } from "../../_actions/config";
+import { withRouter } from "react-router-dom";
 import "./bar.scss";
 
-export default function SimpleMenu(props) {
+function SimpleMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -44,13 +45,21 @@ export default function SimpleMenu(props) {
         onClose={handleClose}
       >
         <MenuItem>
-          <Link to={{ pathname: "" }} style={{ textDecoration: "none", color:'black'}}>
+          <Link
+            to={{ pathname: "" }}
+            style={{ textDecoration: "none", color: "black" }}
+          >
             내 계정
           </Link>
         </MenuItem>
 
         <MenuItem>
-          <Link to={{ pathname: "/mypage" }} style={{ textDecoration: "none", color:'black' }}>마이페이지</Link>
+          <Link
+            to={{ pathname: "/mypage" }}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            마이페이지
+          </Link>
         </MenuItem>
 
         <MenuItem onClick={onLogout}>로그아웃</MenuItem>
@@ -58,3 +67,4 @@ export default function SimpleMenu(props) {
     </div>
   );
 }
+export default withRouter(SimpleMenu);

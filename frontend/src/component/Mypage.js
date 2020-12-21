@@ -1,11 +1,13 @@
-import React from 'react'
+import React from "react";
+import axios from "axios";
 
 function Mypage() {
-    return (
-        <div>
-            마이페이지 입니다
-        </div>
-    )
+
+  const Load_file=async()=>{
+    
+  }
+
+  return (<div>내 작품들</div>);
 }
 
-export default Mypage
+export default Mypage;

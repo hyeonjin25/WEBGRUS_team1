@@ -19,7 +19,7 @@ function SimpleMenu(props) {
   };
 
   const onLogout = () => {
-    axios.post(`${SERVER_API}/auth/logout`).then((res) => {
+    axios.post(`${SERVER_API}/api/auth/logout`).then((res) => {
       if (res.status === 200) {
         props.history.push("/login");
       } else {

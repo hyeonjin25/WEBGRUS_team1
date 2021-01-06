@@ -2,35 +2,37 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { SERVER_API } from "../_actions/config";
 import Post from "../component/Post";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getMyposts } from "../_actions/postAction";
 
 function Mypage() {
   const [Posts, setPosts] = useState([]);
-  // const userid = useSelector((state) => state.user.userData._id);
-  const userid = "gg";
-
+  const dispatch = useDispatch();
+  const userid = useSelector((state) => state.user.userData.userid);
   useEffect(() => {
-    axios.get(`${SERVER_API}/api/users/${userid}`).then((res) => {
-      console.log(res.data.posts);
-      setPosts(res.data.posts);
+    dispatch(getMyposts(userid)).then((res) => {
+      setPosts(res.payload.posts);
     });
   }, []);
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
-      <div style={{ width: "80vw", display: "flex", justifyContent: "center" }}>
+      <div
+        style={{
+          width: "80%",
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "flex-start",
+        }}
+      >
         {Posts.map((post) => (
           <div
             style={{
               display: "flex",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
+              justifyContent: "center",
             }}
           >
-            <Post post={post} key={post._id}/>
-            <Post post={post} key={2}/>
-            <Post post={post} key={3}/>
-            <Post post={post} key={4}/>
+            <Post post={post} key={post.postid} />
           </div>
         ))}
       </div>

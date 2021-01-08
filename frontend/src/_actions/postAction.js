@@ -36,7 +36,7 @@ export function getMyposts(userid) {
   };
 }
 
-//해당 포스트의 정보받기
+//해당 포스트의 디테일 정보받기
 export function getPostDetail(param) {
   const request = axios
     .get(`${SERVER_API}/api/posts/content/${param.postid}`)

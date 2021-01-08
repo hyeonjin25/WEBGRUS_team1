@@ -1,29 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { SERVER_API } from "../_actions/config";
-import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
-import Favorite from "@material-ui/icons/Favorite";
+
 import Comment from "@material-ui/icons/Comment";
 import Visibility from "@material-ui/icons/Visibility";
+import FavoriteComponent from "../component/FavoriteComponent";
+import CommentComponent from "../component/CommentComponent";
 
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { isFavorite } from "../_actions/favoriteAction";
 
 function Post({ post }) {
   const postid = post.postid;
-  const user = useSelector((state) => state.user.userData.likes);
-  
+
   const [CommentToggle, setCommentToggle] = useState(false);
-  const [LikeToggle, setLikeToggle] = useState(false);
-  
-  // const likes = user.userData.isAuth
-  // console.log(likes)
-  useEffect(() => {
-    // for (let i = 0; i < user.userData.likes.length; i++) {
-    //   if (user.userData.likes[i] === postid) {
-    //     setLikeToggle(true);
-    //     break;
-    //   }
-    // }
-  }, []);
+  const [CommentNum, setCommentNum] = useState(post.commentcnt);
+  const [ViewNum, setViewNum] = useState(post.viewcnt);
+
+  const dispatch = useDispatch();
+  useEffect(() => {}, []);
 
   return (
     <div>
@@ -31,10 +25,11 @@ function Post({ post }) {
         style={{
           borderStyle: "solid",
           width: 300,
-          height: 400,
           margin: "5px 5px 0 10px",
+          padding: "5px",
         }}
       >
+        <div>{post.owner}</div>
         <a href={`${SERVER_API}/postDetail/${postid}`}>
           {/* 제일 첫번째 사진 보여주기 */}
           <img
@@ -62,41 +57,30 @@ function Post({ post }) {
               justifyContent: "space-between",
             }}
           >
-            {}
+            <FavoriteComponent postid={postid} postlikecnt={post.likecnt} />
             <div>
-              <FavoriteBorder /> {post.likecnt}
+              <Visibility /> {ViewNum}
             </div>
-            <div>
-              <Visibility /> {post.viewcnt}
-            </div>
+
             <div
+              // 댓글 창 열고 닫히기
               onClick={() => {
-                CommentToggle === false && post.commentcnt > 0
+                CommentToggle === false && CommentNum > 0
                   ? setCommentToggle(true)
                   : setCommentToggle(false);
               }}
             >
               <Comment />
-              {post.commentcnt}
+              {CommentNum}
             </div>
           </div>
         </div>
+        <CommentComponent
+          postid={postid}
+          comments={post.comments}
+          CommentToggle={CommentToggle}
+        />
       </div>
-      {CommentToggle === true ? (
-        <div
-          style={{
-            borderStyle: "solid",
-            width: 300,
-            margin: "0 5px 5px 10px",
-          }}
-        >
-          {post.comments.map((comment) => (
-            <div>{comment}</div>
-          ))}
-        </div>
-      ) : (
-        ""
-      )}
     </div>
   );
 }

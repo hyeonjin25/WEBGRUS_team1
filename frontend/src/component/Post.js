@@ -5,6 +5,7 @@ import Comment from "@material-ui/icons/Comment";
 import Visibility from "@material-ui/icons/Visibility";
 import FavoriteComponent from "../component/FavoriteComponent";
 import CommentComponent from "../component/CommentComponent";
+import FollowComponent from '../component/FollowComponent'
 
 import { useDispatch } from "react-redux";
 import { isFavorite } from "../_actions/favoriteAction";
@@ -30,6 +31,7 @@ function Post({ post }) {
         }}
       >
         <div>{post.owner}</div>
+        <FollowComponent/>
         <a href={`${SERVER_API}/postDetail/${postid}`}>
           {/* 제일 첫번째 사진 보여주기 */}
           <img

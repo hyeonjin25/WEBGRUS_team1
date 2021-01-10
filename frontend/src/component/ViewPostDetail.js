@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Component } from "react";
 import { useParams } from "react-router-dom";
 import { SERVER_API } from "../_actions/config";
-import Slick from "react-slick";
-import './slick.css'
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "../component/_slick-theme.css";
 
 import { useDispatch } from "react-redux";
 import { getPostDetail } from "../_actions/postAction";
@@ -41,14 +43,13 @@ function ViewPostDetail() {
           margin: "5px 5px 5px 10px",
         }}
       >
-        <div>{Post.owner}</div>
         <div style={{ display: "flex", justifyContent: "center" }}>
           {/* 사진들 보여주기 */}
-          <Slick
+          <Slider
             {...slickSettings}
             style={{
               borderStyle: "solid",
-              width:500
+              width: 500,
             }}
           >
             {Photos.map((photo) => (
@@ -59,11 +60,11 @@ function ViewPostDetail() {
                   style={{
                     width: 500,
                     height: 500,
-                  }} 
+                  }}
                 />
               </div>
             ))}
-          </Slick>
+          </Slider>
         </div>
 
         <div

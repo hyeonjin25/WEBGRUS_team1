@@ -33,7 +33,7 @@ function FavoriteComponent({ postid, postlikecnt }) {
 
   //좋아요 토글
   const favoriteClick = () => {
-    const bool = FavoriteToggle ? false : true;
+    const bool = !FavoriteToggle;
     dispatch(postFavorite(postid, bool))
       .then((res) => {
         setFavoriteNum(FavoriteNum + 1);

@@ -2,7 +2,7 @@
 import {
   UPLOAD_FILE,
   GET_POSTDETAIL,
-  GET_MYPOSTS,
+  GET_USERPOSTS,
   GET_ALLPOST,
   POST_MODIFY,
   POST_DELETE,
@@ -14,7 +14,7 @@ export default function (state = {}, action) {
       return { ...state, uploadSuccess: action.payload };
       break;
 
-    case GET_MYPOSTS:
+    case GET_USERPOSTS:
       return { ...state, myPosts: action.payload };
       break;
 

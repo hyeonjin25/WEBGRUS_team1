@@ -14,7 +14,7 @@ function CommentComponent({ postid, comments, CommentToggle }) {
   const [IsModify, setIsModify] = useState(false);
 
   const dispatch = useDispatch();
-  const userid = localStorage.getItem("userid");
+  const userid = sessionStorage.getItem("userid");
 
   const onChangeComment = (e) => {
     setCommentValue(e.target.value);
@@ -84,32 +84,39 @@ function CommentComponent({ postid, comments, CommentToggle }) {
             margin: "0 5px 5px 10px",
           }}
         >
-          {Comments.map((comment) => (
-            <div style={{ borderStyle: "solid", margin: "5px" }}>
-              <div>작성자: {comment.owner} </div>
-              <div>{comment.content} </div>
-              <div>{comment.posttime} </div>
-              {/* 내가 작성한 댓글일 때만 수정, 삭제 버튼 나타남 */}
-              {userid === comment.owner ? (
-                <div>
-                  <button
-                    type='button'
-                    onClick={(e) => onmodify(e, comment.index)}
-                  >
-                    수정
-                  </button>
-                  <button
-                    type='button'
-                    onClick={(e) => ondelete(e, comment.index)}
-                  >
-                    삭제
-                  </button>
-                </div>
-              ) : (
-                ""
-              )}
-            </div>
-          ))}
+          <div
+            style={{
+              height: "100px",
+              overflowY: "auto",
+            }}
+          >
+            {Comments.map((comment) => (
+              <div style={{ borderStyle: "solid", margin: "5px" }}>
+                <div>작성자: {comment.owner} </div>
+                <div>{comment.content} </div>
+                <div>{comment.posttime} </div>
+                {/* 내가 작성한 댓글일 때만 수정, 삭제 버튼 나타남 */}
+                {userid === comment.owner ? (
+                  <div>
+                    <button
+                      type='button'
+                      onClick={(e) => onmodify(e, comment.index)}
+                    >
+                      수정
+                    </button>
+                    <button
+                      type='button'
+                      onClick={(e) => ondelete(e, comment.index)}
+                    >
+                      삭제
+                    </button>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            ))}
+          </div>
           {IsModify === false ? (
             <>
               <input

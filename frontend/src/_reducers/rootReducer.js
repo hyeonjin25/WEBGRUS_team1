@@ -2,6 +2,7 @@ import user from "./userReducer";
 import post from "./postReducer";
 import favorite from "./favoriteReducer";
 import comment from "./commentReducer";
+import follow from "./followReducer";
 
 const { combineReducers } = require("redux");
 
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   post,
   favorite,
   comment,
+  follow
 });
 
 export default rootReducer;

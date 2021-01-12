@@ -4,8 +4,7 @@ import Dropzone from "react-dropzone";
 import AddIcon from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/TextField";
 import { withRouter } from "react-router-dom";
-import { SERVER_API } from "../_actions/config";
-import axios from "axios";
+
 // import Chip from "@material-ui/core/Chip";
 // import Autocomplete from "@material-ui/lab/Autocomplete";
 
@@ -76,9 +75,9 @@ function Newpost(props) {
     for (let i = 0; i < Files.length; i++) {
       formdata.append("photos", Files[i]);
     }
-    // formdata.append("title", Title);
-    // formdata.append("description", Description);
-    // formdata.append("user", user.userData);
+    formdata.append("title", Title);
+    formdata.append("description", Description);
+    formdata.append("user", user.userData);
     
     // 여러 데이터폼 보낸다는 표시
     const config = {

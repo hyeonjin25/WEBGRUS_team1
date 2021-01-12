@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { SERVER_API } from "../_actions/config";
-import { Link } from "react-router-dom";
 
 import Comment from "@material-ui/icons/Comment";
 import Visibility from "@material-ui/icons/Visibility";
 import FavoriteComponent from "../component/FavoriteComponent";
 import CommentComponent from "../component/CommentComponent";
-
-import { useDispatch } from "react-redux";
-import { isFavorite } from "../_actions/favoriteAction";
 
 function Post({ post }) {
   const postid = post.postid;
@@ -16,9 +12,6 @@ function Post({ post }) {
   const [CommentToggle, setCommentToggle] = useState(false);
   const [CommentNum, setCommentNum] = useState(post.commentcnt);
   const [ViewNum, setViewNum] = useState(post.viewcnt);
-
-  const dispatch = useDispatch();
-  useEffect(() => {}, []);
 
   return (
     <div>

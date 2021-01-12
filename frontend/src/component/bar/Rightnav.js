@@ -8,7 +8,7 @@ function Rightnav() {
   // jwt가 있으면 로그인 된걸로 간주
   const user = useSelector((state) => state.user);
 
-  if (user.userData && user.userData.isAuth) {
+  if (user.userData && user.userData.userid) {
     return (
       <div className='nav'>
         <ul>

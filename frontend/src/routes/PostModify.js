@@ -17,6 +17,7 @@ function PostModify() {
   const dispatch = useDispatch();
   const history = useHistory();
   const param = useParams();
+  const postid = param.postid
 
   const [Title, setTitle] = useState("");
   const [Photos, setPhotos] = useState([]);
@@ -94,10 +95,10 @@ function PostModify() {
       headers: { "Content-Type": "multipart/form-data" },
     };
 
-    dispatch(postModify(formdata, config, param.postid)).then((response) => {
+    dispatch(postModify(formdata, config, postid)).then((response) => {
       //수정 성공시 해당 포스트 디테일 페이지로 이동
       if (response) {
-        history.push(`/postDetail/${param.postid}`);
+        history.push(`/postDetail/${postid}`);
       } else {
         alert("포스트 수정에 실패했습니다.");
       } 

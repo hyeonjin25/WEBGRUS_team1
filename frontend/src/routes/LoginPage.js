@@ -55,7 +55,9 @@ function SignIn(props) {
     //액션
     dispatch(loginUser(body)).then((response) => {
       //로그인 성공시 홈으로 이동
-      if (response.payload.loginSuccess) {
+      if (response.payload.userid)  {
+        console.log(response.payload)
+        sessionStorage.setItem('userid', response.payload.userid);
         props.history.push("/");
       } else {
         alert("로그인에 실패했습니다.");

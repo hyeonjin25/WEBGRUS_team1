@@ -21,6 +21,7 @@ function SimpleMenu(props) {
   const onLogout = () => {
     axios.post(`${SERVER_API}/api/auth/logout`).then((res) => {
       if (res.status === 200) {
+        sessionStorage.removeItem("userid");
         props.history.push("/login");
       } else {
         alert("로그아웃에 실패했습니다.");

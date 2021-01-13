@@ -13,7 +13,7 @@ function PostDetail() {
   const userid = param.userid;
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.auth);
 
   //내가 올린 포스트인 경우 수정 및 삭제 버튼 나오게
   if (user.userData && user.userData.userid === userid) {

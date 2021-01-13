@@ -7,10 +7,10 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { withRouter } from "react-router-dom";
+import { loginUser } from "../_actions/authAction";
 
-import { useDispatch } from "react-redux";
-import { loginUser } from "../_actions/userAction";
+import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,9 +33,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SignIn(props) {
-  const dispatch = useDispatch();
-
+  const history = useHistory();
   const classes = useStyles();
+
+  const auth = props.auth;
 
   const [Id, setId] = useState("");
   const [Password, setPassword] = useState("");
@@ -46,19 +47,19 @@ function SignIn(props) {
   const onPassword = (e) => {
     setPassword(e.currentTarget.value);
   };
-  const onSubmit = (e) => {
+  const onSubmit = async(e) => {
     e.preventDefault();
+
     let body = {
       userid: Id,
       password: Password,
     };
+
     //액션
-    dispatch(loginUser(body)).then((response) => {
+    await props.loginUser(body).then((res) => {
       //로그인 성공시 홈으로 이동
-      if (response.payload.userid)  {
-        console.log(response.payload)
-        sessionStorage.setItem('userid', response.payload.userid);
-        props.history.push("/");
+      if (res) {
+        history.push("/");
       } else {
         alert("로그인에 실패했습니다.");
       }
@@ -124,4 +125,8 @@ function SignIn(props) {
   );
 }
 
-export default withRouter(SignIn);
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { loginUser })(SignIn);

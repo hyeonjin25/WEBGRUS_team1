@@ -6,7 +6,7 @@ import { getUserposts } from "../_actions/postAction";
 function Mypage() {
   const [Posts, setPosts] = useState([]);
   const dispatch = useDispatch();
-  const userid = useSelector((state) => state.user.userData.userid);
+  const userid = useSelector((state) => state.auth.userData.userid);
   useEffect(() => {
     dispatch(getUserposts(userid)).then((res) => {
       setPosts(res.payload.posts);

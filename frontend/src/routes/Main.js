@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Post from "../component/Post";
-import {getAllpost} from '../_actions/postAction'
-import {useDispatch} from 'react-redux'
+import { getAllpost } from "../_actions/postAction";
+import { useDispatch } from "react-redux";
 
 function Main() {
   const [Posts, setPosts] = useState([]);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllpost()).then((res) => {

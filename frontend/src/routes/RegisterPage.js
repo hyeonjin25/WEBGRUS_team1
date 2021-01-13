@@ -7,9 +7,9 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { registerUser } from "../_actions/authAction";
 
-import { useDispatch } from "react-redux";
-import { registerUser } from "../_actions/userAction";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp(props) {
-  const dispatch = useDispatch();
+function SignUp(props) {
+  const auth = props.auth;
 
   const classes = useStyles();
 
@@ -61,7 +61,7 @@ export default function SignUp(props) {
     else setPasswordchecking(true);
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async(e) => {
     e.preventDefault();
     let body = {
       firstname: Firstname,
@@ -70,12 +70,13 @@ export default function SignUp(props) {
       email: Email,
       password: Password,
     };
+
     //액션
-    dispatch(registerUser(body)).then((res) => {
-      if (res.payload.success) {
+    await props.registerUser(body).then((res) => {
+      if (res) {
         props.history.push("/login");
       } else {
-        alert(res.payload.err);
+        alert("회원가입에 실패했습니다");
       }
     });
   };
@@ -156,7 +157,9 @@ export default function SignUp(props) {
             <Grid item xs={12}>
               <TextField
                 error={!Passwordchecking}
-                helperText={!Passwordchecking?"비밀번호와 일치하지 않습니다.":""}
+                helperText={
+                  !Passwordchecking ? "비밀번호와 일치하지 않습니다." : ""
+                }
                 variant='outlined'
                 required
                 fullWidth
@@ -190,3 +193,9 @@ export default function SignUp(props) {
     </Container>
   );
 }
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, {registerUser})(SignUp);

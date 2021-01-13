@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fileUpload } from "../_actions/postAction";
 
 function Newpost(props) {
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const [Files, setFiles] = useState([]);

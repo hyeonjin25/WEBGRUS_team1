@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   updateComment,
   modifyComment,
@@ -12,9 +12,17 @@ function CommentComponent({ postid, comments, CommentToggle }) {
   const [ModifyCommentValue, setModifyCommentValue] = useState("");
   const [Comments, setComments] = useState(comments);
   const [IsModify, setIsModify] = useState(false);
+  const [IsLogined, setIsLogined] = useState(false);
+
+  const userid = "hj2525";
 
   const dispatch = useDispatch();
-  const userid = sessionStorage.getItem("userid");
+
+  useEffect(() => {
+    if (userid) {
+      setIsLogined(true);
+    }
+  }, []);
 
   const onChangeComment = (e) => {
     setCommentValue(e.target.value);
@@ -51,6 +59,7 @@ function CommentComponent({ postid, comments, CommentToggle }) {
   //수정한 댓글 올리기
   const onModifySubmit = (e, index) => {
     e.preventDefault();
+
     const body = { userid, content: ModifyCommentValue };
     dispatch(modifyComment(postid, index, body))
       .then((res) => {
@@ -65,6 +74,7 @@ function CommentComponent({ postid, comments, CommentToggle }) {
   //댓글 삭제 요청
   const ondelete = (e, index) => {
     e.preventDefault();
+
     const body = { userid };
     dispatch(deleteComment(postid, index, body))
       .then((res) => {
@@ -73,6 +83,50 @@ function CommentComponent({ postid, comments, CommentToggle }) {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  //댓글 작성 창
+  const writeComment = () => {
+    return (
+      <div>
+        {IsModify === false ? (
+          <>
+            <input
+              type='textarea'
+              name='Comment'
+              value=''
+              onChange={onChangeComment}
+            />
+            {/* 댓글 올리기 버튼 */}
+            <button type='button' onClick={onSubmit}>
+              댓글
+            </button>
+          </>
+        ) : (
+          <>
+            <input
+              type='textarea'
+              name='Comment'
+              value={ModifyCommentValue}
+              onChange={onChangeComment}
+            />
+            {/* 댓글 올리기 버튼 */}
+            <button type='button' onClick={onModifySubmit}>
+              수정
+            </button>
+            <button
+              type='button'
+              onClick={(e) => {
+                e.preventDefault();
+                setIsModify(false);
+              }}
+            >
+              취소
+            </button>
+          </>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -117,42 +171,7 @@ function CommentComponent({ postid, comments, CommentToggle }) {
               </div>
             ))}
           </div>
-          {IsModify === false ? (
-            <>
-              <input
-                type='textarea'
-                name='Comment'
-                value=''
-                onChange={onChangeComment}
-              />
-              {/* 댓글 올리기 버튼 */}
-              <button type='button' onClick={onSubmit}>
-                댓글
-              </button>
-            </>
-          ) : (
-            <>
-              <input
-                type='textarea'
-                name='Comment'
-                value={ModifyCommentValue}
-                onChange={onChangeComment}
-              />
-              {/* 댓글 올리기 버튼 */}
-              <button type='button' onClick={onModifySubmit}>
-                수정
-              </button>
-              <button
-                type='button'
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsModify(false);
-                }}
-              >
-                취소
-              </button>
-            </>
-          )}
+          {IsLogined ? <writeComment /> : ""}
         </div>
       ) : (
         ""

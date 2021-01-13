@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { SERVER_API } from "../../_actions/config";
-import { withRouter } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { connect } from "react-redux";
+import { logoutUser } from "../../_actions/authAction";
 import "./bar.scss";
 
 function SimpleMenu(props) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const history = useHistory();
+  const auth = props.auth;
+
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -18,11 +20,11 @@ function SimpleMenu(props) {
     setAnchorEl(null);
   };
 
-  const onLogout = () => {
-    axios.post(`${SERVER_API}/api/auth/logout`).then((res) => {
-      if (res.status === 200) {
-        sessionStorage.removeItem("userid");
-        props.history.push("/login");
+  const onLogout = async () => {
+    //action
+    await props.logoutUser().then((res) => {
+      if (res) {
+        history.push("/login");
       } else {
         alert("로그아웃에 실패했습니다.");
       }
@@ -68,4 +70,9 @@ function SimpleMenu(props) {
     </div>
   );
 }
-export default withRouter(SimpleMenu);
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { logoutUser })(SimpleMenu);

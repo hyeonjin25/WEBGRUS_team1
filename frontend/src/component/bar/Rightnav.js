@@ -1,20 +1,19 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import "./bar.scss";
 import Menubar from "./menubar";
 
-function Rightnav() {
+function Rightnav(props) {
   // jwt가 있으면 로그인 된걸로 간주
-  const user = useSelector((state) => state.user);
 
-  if (user.userData && user.userData.userid) {
+  if (props.auth.isAuth) {
     return (
       <div className='nav'>
         <ul>
           <li>
             <div>
-              <Link to={{ pathname: "/newpost" }}>디자인올리기</Link>
+              <Link to={{ pathname: "/newpost" }}> 디자인올리기</Link>
             </div>
           </li>
           <li>
@@ -41,4 +40,8 @@ function Rightnav() {
   }
 }
 
-export default Rightnav;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps)(Rightnav);

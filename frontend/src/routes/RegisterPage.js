@@ -9,6 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { registerUser } from "../_actions/authAction";
 
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SignUp(props) {
+  const history = useHistory();
   const auth = props.auth;
 
   const classes = useStyles();
@@ -61,22 +63,31 @@ function SignUp(props) {
     else setPasswordchecking(true);
   };
 
-  const onSubmit = async(e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     let body = {
+      // username: {
+      //
+      //   lastname: Lastname,
+      // },
       firstname: Firstname,
-      lastname: Lastname,
       userid: Id,
-      email: Email,
+      useremail: Email,
       password: Password,
     };
 
     //액션
     await props.registerUser(body).then((res) => {
       if (res) {
-        props.history.push("/login");
+        history.push("/login");
       } else {
         alert("회원가입에 실패했습니다");
+        setFirstname("");
+        setLastname("");
+        setId("");
+        setEmail("");
+        setPassword("");
+        setPasswordcheck("");
       }
     });
   };
@@ -93,7 +104,7 @@ function SignUp(props) {
             <Grid item xs={6}>
               <TextField
                 autoComplete='fname'
-                name={Firstname}
+                value={Firstname}
                 variant='outlined'
                 required
                 fullWidth
@@ -106,7 +117,7 @@ function SignUp(props) {
             <Grid item xs={6}>
               <TextField
                 autoComplete='fname'
-                name={Lastname}
+                value={Lastname}
                 variant='outlined'
                 required
                 fullWidth
@@ -122,7 +133,7 @@ function SignUp(props) {
                 required
                 fullWidth
                 id='id'
-                name={Id}
+                value={Id}
                 label='아이디'
                 autoComplete='id'
                 onChange={onId}
@@ -135,7 +146,7 @@ function SignUp(props) {
                 fullWidth
                 id='email'
                 type='email'
-                name={Email}
+                value={Email}
                 label='이메일'
                 autoComplete='email'
                 onChange={onEmail}
@@ -146,7 +157,7 @@ function SignUp(props) {
                 variant='outlined'
                 required
                 fullWidth
-                name={Password}
+                value={Password}
                 type='password'
                 id='password'
                 label='비밀번호'
@@ -163,7 +174,7 @@ function SignUp(props) {
                 variant='outlined'
                 required
                 fullWidth
-                name={Passwordcheck}
+                value={Passwordcheck}
                 type='password'
                 id='passwordcheck'
                 label='비밀번호 확인'
@@ -198,4 +209,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {registerUser})(SignUp);
+export default connect(mapStateToProps, { registerUser })(SignUp);

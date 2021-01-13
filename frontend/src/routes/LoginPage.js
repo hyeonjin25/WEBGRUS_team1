@@ -47,7 +47,7 @@ function SignIn(props) {
   const onPassword = (e) => {
     setPassword(e.currentTarget.value);
   };
-  const onSubmit = async(e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
     let body = {
@@ -62,6 +62,8 @@ function SignIn(props) {
         history.push("/");
       } else {
         alert("로그인에 실패했습니다.");
+        setId("");
+        setPassword("");
       }
     });
   };
@@ -81,7 +83,7 @@ function SignIn(props) {
             fullWidth
             id='id'
             label='아이디'
-            name={Id}
+            value={Id}
             autoComplete='id'
             autoFocus
             onChange={onId}
@@ -91,7 +93,7 @@ function SignIn(props) {
             margin='normal'
             required
             fullWidth
-            name={Password}
+            value={Password}
             label='비밀번호'
             type='password'
             id='password'

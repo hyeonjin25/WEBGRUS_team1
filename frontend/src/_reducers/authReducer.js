@@ -11,6 +11,7 @@ import {
   REGISTER_LOADING,
   LOGOUT_SUCCESS,
   LOGOUT_LOADING,
+  LOGOUT_FAILURE,
 } from "../_actions/types";
 
 const initialState = {
@@ -55,7 +56,7 @@ export default function (state = initialState, action) {
       };
 
     case LOGIN_SUCCESS:
-      localStorage.setItem("token", action.payload);
+      localStorage.setItem("token", action.payload.token);
       return {
         ...state,
         ...action.payload,
@@ -110,6 +111,12 @@ export default function (state = initialState, action) {
         isAuth: false,
         userData: null,
         status: { logout: "SUCCESS" },
+      };
+
+    case LOGOUT_FAILURE:
+      return {
+        ...state,
+        status: { logout: "FAILURE" },
       };
 
     default:

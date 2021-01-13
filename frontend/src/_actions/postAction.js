@@ -1,13 +1,14 @@
 import axios from "axios";
 import { SERVER_API } from "./config";
+import {
+  UPLOAD_FILE,
+  GET_USERPOSTS,
+  GET_POSTDETAIL,
+  GET_ALLPOST,
+  POST_MODIFY,
+  POST_DELETE,
+} from "./types";
 
-//action type
-export const UPLOAD_FILE = "upload_file";
-export const GET_USERPOSTS = "get_userposts";
-export const GET_POSTDETAIL = "get_postdetail";
-export const GET_ALLPOST = "get_allpost";
-export const POST_MODIFY = "post_modify";
-export const POST_DELETE = "post_delete";
 
 // 액션 생성자 함수들
 

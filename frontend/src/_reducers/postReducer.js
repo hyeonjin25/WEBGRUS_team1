@@ -6,7 +6,7 @@ import {
   GET_ALLPOST,
   POST_MODIFY,
   POST_DELETE,
-} from "../_actions/postAction";
+} from "../_actions/types";
 
 export default function (state = {}, action) {
   switch (action.type) {

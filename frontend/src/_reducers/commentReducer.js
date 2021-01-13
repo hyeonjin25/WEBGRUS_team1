@@ -3,7 +3,7 @@ import {
   UPDATE_COMMENT,
   MODIFY_COMMENT,
   DELETE_COMMENT,
-} from "../_actions/commentAction";
+} from "../_actions/types";
 
 export default function (state = {}, action) {
   switch (action.type) {

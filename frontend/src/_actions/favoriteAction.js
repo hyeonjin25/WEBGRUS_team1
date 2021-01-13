@@ -1,10 +1,7 @@
 import axios from "axios";
 import { SERVER_API } from "./config";
+import { POST_FAVORITE, IS_FAVORITE } from "./types";
 
-export const POST_FAVORITE = "post_favorite";
-export const IS_FAVORITE = "my_favorite";
-
-// 액션 생성자 함수들
 
 //포스트 좋아요 토글
 export function postFavorite(postid,bool) {

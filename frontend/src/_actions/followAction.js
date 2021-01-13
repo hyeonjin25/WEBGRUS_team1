@@ -1,9 +1,6 @@
 import axios from "axios";
 import { SERVER_API } from "./config";
-
-//action type
-export const IS_FOLLOW = "is_follow";
-export const FOLLOW_TOGGLE = "follow_toggle";
+import { IS_FOLLOW, FOLLOW_TOGGLE } from "./types";
 
 //팔로우 여부 확인
 export function isFollow(data) {

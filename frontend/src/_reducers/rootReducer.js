@@ -1,4 +1,4 @@
-import user from "./userReducer";
+import auth from "./authReducer";
 import post from "./postReducer";
 import favorite from "./favoriteReducer";
 import comment from "./commentReducer";
@@ -8,11 +8,11 @@ const { combineReducers } = require("redux");
 
 //reducer 합치기
 const rootReducer = combineReducers({
-  user,
+  auth,
   post,
   favorite,
   comment,
-  follow
+  follow,
 });
 
 export default rootReducer;

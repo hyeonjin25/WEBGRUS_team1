@@ -1,7 +1,8 @@
 import axios from "axios";
 import { SERVER_API } from "./config";
 import {
-  UPLOAD_FILE,
+  UPLOAD_SUCCESS,
+  UPLOAD_FAILURE,
   GET_USERPOSTS,
   GET_POSTDETAIL,
   GET_ALLPOST,
@@ -9,22 +10,30 @@ import {
   POST_DELETE,
 } from "./types";
 
-
 // 액션 생성자 함수들
 
 //포스트 업로드
-export function fileUpload(formdata, config) {
-  for (let value of formdata.values()) {
-    console.log(value);
-  }
-  const request = axios
-    .post(`${SERVER_API}/api/posts`, formdata, config)
-    .then((res) => res.data);
-  return {
-    type: UPLOAD_FILE,
-    payload: request,
+export const fileUpload = (formdata) => (dispatch, getState) => {
+  //localstorage의 token 가져오기
+  const token = getState().auth.token;
+
+  // 여러 데이터폼 보낸다는 표시
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   };
-}
+
+  //토큰이 존재하면 Headers에 넣기
+  if (token) {
+    config.headers["Authorization"] = token;
+  }
+
+  return axios
+    .post(`${SERVER_API}/api/posts`, formdata, config)
+    .then((res) => dispatch({ type: UPLOAD_SUCCESS, payload: res.data }))
+    .catch((err) => dispatch({ type: UPLOAD_FAILURE, payload: err }));
+};
 
 // 해당 유저의 포스트 정보받기
 export function getUserposts(userid) {
@@ -62,25 +71,58 @@ export function getAllpost() {
 }
 
 //해당 포스트의 수정
-export function postModify(data) {
+export const postModify = (data) => (getState) => {
+  //localstorage의 token 가져오기
+  const token = getState().auth.token;
+
+  //Headers
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
+
+  //토큰이 존재하면 Headers에 넣기
+  if (token) {
+    config.headers["Authorization"] = token;
+  }
   const request = axios
-    .put(`${SERVER_API}/api/posts/${data.postid}`, data.formdata, data.config)
+    .put(
+      `${SERVER_API}/api/posts/${data.postid}`,
+      data.formdata,
+      data.config,
+      config
+    )
     .then((res) => res.data);
 
   return {
     type: POST_MODIFY,
     payload: request,
   };
-}
+};
 
 //해당 포스트의 삭제
-export function postDelete(postid) {
+export const postDelete = (postid) => (getState) => {
+  //localstorage의 token 가져오기
+  const token = getState().auth.token;
+
+  //Headers
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
+
+  //토큰이 존재하면 Headers에 넣기
+  if (token) {
+    config.headers["Authorization"] = token;
+  }
   const request = axios
-    .delete(`${SERVER_API}/api/posts/${postid}`)
+    .delete(`${SERVER_API}/api/posts/${postid}`, config)
     .then((res) => res.data);
 
   return {
     type: POST_DELETE,
     payload: request,
   };
-}
+};

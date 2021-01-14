@@ -99,17 +99,19 @@ function Newpost(props) {
     } else {
       //FormData에 파일정보 저장하기
       const formdata = new FormData();
-      for (let i = 0; i < Files.length; i++) {
-        formdata.append("photos", Files[i]);
-      }
+
       formdata.append("title", Title);
+
+      Files.forEach((file) => {
+        formdata.append("photos", file);
+      });
+      
       if (Description) formdata.append("description", Description);
       if (Tags.length > 0) formdata.append("tags", Tags);
 
       dispatch(fileUpload(formdata)).then((res) => {
         //업로드 성공시 업로드된 페이지로 이동
-        console.log(res);
-        if (res.success) {
+        if (res) {
           props.history.push("/mypage");
         } else {
           alert("업로드에 실패했습니다.");
@@ -172,7 +174,7 @@ function Newpost(props) {
         {/* 태그를 추가하면 태그 나타내기 */}
         {Tags
           ? Tags.map((tag) => (
-              <div>
+              <div key={tag}>
                 #{tag}{" "}
                 <button
                   type='button'

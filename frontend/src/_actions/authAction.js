@@ -16,44 +16,31 @@ import {
 //
 // authentication 확인
 //
-export const authenticationCheck = () => (dispatch, getState) => {
-  // //로딩중
-  // dispatch({
-  //   type: AUTH_LOADING,
-  // });
-
-  // //localstorage의 token 가져오기
-  // const token = getState().auth.token;
-
-  // //Headers
-  // const config = {
-  //   headers: {
-  //     "Content-type": "application/json",
-  //   },
-  // };
-
-  // //토큰이 존재하면 Headers에 넣기
-  // if (token) {
-  //   config.headers["Authorization"] = token;
-  // }
-
-  // return axios
-  //   .post(`${SERVER_API}/api/auth/check`, config)
-  //   .then((res) => {
-  //     dispatch({
-  //       type: AUTH_SUCCESS,
-  //       payload: res.data,
-  //     });
-  //   })
-  //   .catch((err) => {
-  //     dispatch({
-  //       type: AUTH_FAILURE,
-  //       payload: err,
-  //     });
-  //   });
-  return dispatch({
-    type: AUTH_SUCCESS,
+export const authenticationCheck = () => (dispatch) => {
+  //로딩중
+  dispatch({
+    type: AUTH_LOADING,
   });
+
+  //localstorage의 token 가져오기
+  const token = localStorage.getItem("token");
+
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+  return axios
+    .post(`${SERVER_API}/api/auth/check`)
+    .then((res) => {
+      dispatch({
+        type: AUTH_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: AUTH_FAILURE,
+        payload: err,
+      });
+    });
 };
 
 //

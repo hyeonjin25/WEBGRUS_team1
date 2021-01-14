@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { Link, useHistory } from "react-router-dom";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logoutUser } from "../../_actions/authAction";
 import "./bar.scss";
 
 function SimpleMenu(props) {
   const history = useHistory();
-  const auth = props.auth;
+  const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -20,15 +20,10 @@ function SimpleMenu(props) {
     setAnchorEl(null);
   };
 
-  const onLogout = async () => {
+  const onLogout = () => {
     //action
-    await props.logoutUser().then((res) => {
-      if (res) {
-        history.push("/login");
-      } else {
-        alert("로그아웃에 실패했습니다.");
-      }
-    });
+    dispatch(logoutUser());
+    history.push("/login");
   };
 
   return (
@@ -71,8 +66,4 @@ function SimpleMenu(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-
-export default connect(mapStateToProps, { logoutUser })(SimpleMenu);
+export default SimpleMenu;

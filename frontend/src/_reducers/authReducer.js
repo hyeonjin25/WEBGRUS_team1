@@ -97,12 +97,6 @@ export default function (state = initialState, action) {
         status: { register: "FAILURE" },
       };
 
-    case LOGOUT_LOADING:
-      return {
-        ...state,
-        status: { logout: "LOADING" },
-      };
-
     case LOGOUT_SUCCESS:
       localStorage.removeItem("token");
       return {
@@ -112,13 +106,7 @@ export default function (state = initialState, action) {
         userData: null,
         status: { logout: "SUCCESS" },
       };
-
-    case LOGOUT_FAILURE:
-      return {
-        ...state,
-        status: { logout: "FAILURE" },
-      };
-
+      
     default:
       return state;
   }

@@ -11,8 +11,6 @@ import {
   REGISTER_FAILURE,
   REGISTER_LOADING,
   LOGOUT_SUCCESS,
-  LOGOUT_LOADING,
-  LOGOUT_FAILURE
 } from "./types";
 
 //
@@ -116,27 +114,7 @@ export const registerUser = (data) => (dispatch) => {
 //로그아웃
 //
 export const logoutUser = () => {
-  return (dispatch) => {
-    //로딩중
-    dispatch({
-      type: LOGOUT_LOADING,
-    });
-
-    return axios
-      .post(`${SERVER_API}/api/auth/logout`)
-      .then((res) => {
-        dispatch({
-          type: LOGOUT_SUCCESS,
-          payload: res.data,
-        });
-        return true;
-      })
-      .catch((err) => {
-        dispatch({
-          type: LOGOUT_FAILURE,
-          payload: err,
-        });
-        return false;
-      });
+  return {
+    type: LOGOUT_SUCCESS,
   };
 };

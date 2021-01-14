@@ -21,18 +21,20 @@ export const fileUpload = (formdata) => (dispatch, getState) => {
   const config = {
     headers: {
       "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`,
     },
   };
 
-  //토큰이 존재하면 Headers에 넣기
-  if (token) {
-    config.headers["Authorization"] = token;
-  }
-
   return axios
     .post(`${SERVER_API}/api/posts`, formdata, config)
-    .then((res) => dispatch({ type: UPLOAD_SUCCESS, payload: res.data }))
-    .catch((err) => dispatch({ type: UPLOAD_FAILURE, payload: err }));
+    .then((res) => {
+      dispatch({ type: UPLOAD_SUCCESS, payload: res.data });
+      return true;
+    })
+    .catch((err) => {
+      dispatch({ type: UPLOAD_FAILURE, payload: err });
+      return false;
+    });
 };
 
 // 해당 유저의 포스트 정보받기
@@ -84,7 +86,7 @@ export const postModify = (data) => (getState) => {
 
   //토큰이 존재하면 Headers에 넣기
   if (token) {
-    config.headers["Authorization"] = token;
+    config.headers["Authorization"] = `Bearer ${token}`;
   }
   const request = axios
     .put(
@@ -115,7 +117,7 @@ export const postDelete = (postid) => (getState) => {
 
   //토큰이 존재하면 Headers에 넣기
   if (token) {
-    config.headers["Authorization"] = token;
+    config.headers["Authorization"] = `Bearer ${token}`;
   }
   const request = axios
     .delete(`${SERVER_API}/api/posts/${postid}`, config)

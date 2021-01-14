@@ -17,12 +17,13 @@ function PostModify() {
   const dispatch = useDispatch();
   const history = useHistory();
   const param = useParams();
-  const postid = param.postid
+  const postid = param.postid;
 
   const [Title, setTitle] = useState("");
   const [Photos, setPhotos] = useState([]);
   const [Description, setDescription] = useState("");
-  const [Tag, setTag] = useState([]);
+  const [CurrentTag, setCurrentTag] = useState("태그"); //현재 작성중인 태그
+  const [Tags, setTags] = useState([]); //작성한 태그들 배열
   const [Files, setFiles] = useState([]);
   const [Thumbnails, setThumbnails] = useState([]);
 
@@ -30,7 +31,7 @@ function PostModify() {
     setTitle(post.title);
     setPhotos(post.photos);
     setDescription(post.description);
-    setTag(post.tag);
+    setTags(post.tags);
     //썸네일 주소 삭제
     return () => {
       window.URL.revokeObjectURL(Thumbnails);
@@ -43,6 +44,23 @@ function PostModify() {
 
   const onDescription = (e) => {
     setDescription(e.target.value);
+  };
+
+  const onCurrentTag = (e) => {
+    setCurrentTag(e.target.value);
+  };
+
+  //태그 추가하기
+  const onTagClick = (e) => {
+    e.preventDefault();
+    if (CurrentTag) {
+      if (Tags.length > 9) {
+        alert("태그는 10개까지 입력하실 수 있습니다.");
+      } else {
+        setTags([...Tags, CurrentTag]);
+      }
+      setCurrentTag("");
+    }
   };
 
   //파일저장 및 썸네일 생성
@@ -87,7 +105,7 @@ function PostModify() {
     formdata.append("photos", allFiles);
     formdata.append("title", Title);
     formdata.append("description", Description);
-    formdata.append("tag", Tag);
+    formdata.append("tags", Tags);
     // formdata.append("owner", user.userData.userid);
 
     // 여러 데이터폼 보낸다는 표시
@@ -101,7 +119,7 @@ function PostModify() {
         history.push(`/postDetail/${postid}`);
       } else {
         alert("포스트 수정에 실패했습니다.");
-      } 
+      }
     });
   };
 
@@ -132,7 +150,36 @@ function PostModify() {
           value={Description}
           onChange={onDescription}
         />
-
+        {/* 태그입력창 */}
+        <div>
+          <input
+            type='text'
+            value={CurrentTag}
+            name='tag'
+            onChange={onCurrentTag}
+          />
+          <button type='button' onClick={onTagClick}>
+            추가
+          </button>
+          {/* 태그를 추가하면 태그 나타내기 */}
+          {Tags
+            ? Tags.map((tag) => (
+                <div>
+                  #{tag}{" "}
+                  <button
+                    type='button'
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const deleteTag = tag;
+                      setTags(Tags.filter((tag) => tag !== deleteTag));
+                    }}
+                  >
+                    삭제
+                  </button>
+                </div>
+              ))
+            : ""}
+        </div>
         <div
           style={{
             display: "flex",
@@ -161,7 +208,8 @@ function PostModify() {
                 style={{ width: 50 }}
                 type='button'
                 name='deleteButton'
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   const deleteId = photo.id;
                   setPhotos(Photos.filter((photos) => photos.id !== deleteId));
                 }}
@@ -171,7 +219,6 @@ function PostModify() {
             </div>
           ))}
         </div>
-
         {/* 이미지 업로드 */}
         <Dropzone accept='image/*' onDrop={onDrop}>
           {({ getRootProps, getInputProps }) => (
@@ -209,7 +256,6 @@ function PostModify() {
             </section>
           )}
         </Dropzone>
-
         <div
           style={{
             margin: "5vh 0 5vh 0",

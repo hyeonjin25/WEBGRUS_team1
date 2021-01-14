@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 import Dropzone from "react-dropzone";
 import AddIcon from "@material-ui/icons/Add";
-import TextField from "@material-ui/core/TextField";
 import { withRouter } from "react-router-dom";
 
 // import Chip from "@material-ui/core/Chip";
@@ -19,6 +19,8 @@ function Newpost(props) {
   const [Thumbnails, setThumbnails] = useState([]);
   const [Title, setTitle] = useState("");
   const [Description, setDescription] = useState("");
+  const [CurrentTag, setCurrentTag] = useState(""); //현재 작성중인 태그
+  const [Tags, setTags] = useState([]); //작성한 태그들 배열
 
   useEffect(() => {
     //썸네일 주소 삭제
@@ -33,6 +35,23 @@ function Newpost(props) {
 
   const onDescription = (e) => {
     setDescription(e.target.value);
+  };
+
+  const onCurrentTag = (e) => {
+    setCurrentTag(e.target.value);
+  };
+
+  //태그 추가하기
+  const onTagClick = (e) => {
+    e.preventDefault();
+    if (CurrentTag) {
+      if (Tags.length > 9) {
+        alert("태그는 10개까지 입력하실 수 있습니다.");
+      } else {
+        setTags([...Tags, CurrentTag]);
+      }
+      setCurrentTag("");
+    }
   };
 
   //파일저장 및 썸네일 생성
@@ -71,22 +90,32 @@ function Newpost(props) {
   const OnFileUpload = (e) => {
     e.preventDefault();
 
-    const formdata = new FormData();
-    for (let i = 0; i < Files.length; i++) {
-      formdata.append("photos", Files[i]);
-    }
-    formdata.append("title", Title);
-    formdata.append("description", Description);
-
-    dispatch(fileUpload(formdata)).then((res) => {
-      //업로드 성공시 업로드된 페이지로 이동
-      console.log(res);
-      if (res.success) {
-        props.history.push("/mypage");
-      } else {
-        alert("업로드에 실패했습니다.");
+    //제목과 파일은 필수
+    //설명과 태그는 선택
+    if (!Title) {
+      alert("제목이 필요합니다!");
+    } else if (Files.length === 0) {
+      alert("파일 업로드가 필요합니다!");
+    } else {
+      //FormData에 파일정보 저장하기
+      const formdata = new FormData();
+      for (let i = 0; i < Files.length; i++) {
+        formdata.append("photos", Files[i]);
       }
-    });
+      formdata.append("title", Title);
+      if (Description) formdata.append("description", Description);
+      if (Tags.length > 0) formdata.append("tags", Tags);
+
+      dispatch(fileUpload(formdata)).then((res) => {
+        //업로드 성공시 업로드된 페이지로 이동
+        console.log(res);
+        if (res.success) {
+          props.history.push("/mypage");
+        } else {
+          alert("업로드에 실패했습니다.");
+        }
+      });
+    }
   };
 
   //input style
@@ -95,16 +124,6 @@ function Newpost(props) {
     width: "40vw",
     minWidth: "400px",
   };
-
-  //인기 태그 보여주기
-  // const topTag = [
-  //   "일러스트레이트",
-  //   "가구디자인",
-  //   "팔레트",
-  //   "캐릭터",
-  //   "동물",
-  //   "인물",
-  // ];
 
   return (
     <div
@@ -132,22 +151,43 @@ function Newpost(props) {
         variant='outlined'
         onChange={onDescription}
       />
-      {/* <Autocomplete
-        style={textfield}
-        multiple
-        id='태그'
-        options={top100Films}
-        getOptionLabel={(option) => option.title}
-        defaultValue={[topTag[6]]}
-        filterSelectedOptions
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            variant='outlined'
-            label='filterSelectedOptions'
-          />
-        )}
-      /> */}
+      {/* 태그입력창 */}
+      <div>
+        <TextField
+          id='standard-multiline-static'
+          value={CurrentTag}
+          name='tag'
+          label='태그'
+          variant='outlined'
+          onChange={onCurrentTag}
+        />
+        <Button
+          type='button'
+          onClick={onTagClick}
+          variant='contained'
+          color='primary'
+        >
+          추가
+        </Button>
+        {/* 태그를 추가하면 태그 나타내기 */}
+        {Tags
+          ? Tags.map((tag) => (
+              <div>
+                #{tag}{" "}
+                <button
+                  type='button'
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const deleteTag = tag;
+                    setTags(Tags.filter((tag) => tag !== deleteTag));
+                  }}
+                >
+                  삭제
+                </button>
+              </div>
+            ))
+          : ""}
+      </div>
       <Dropzone accept='image/*' onDrop={onDrop}>
         {({ getRootProps, getInputProps }) => (
           <section

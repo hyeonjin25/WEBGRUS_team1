@@ -17,11 +17,13 @@ function ViewPostDetail() {
 
   const [Post, setPost] = useState([]);
   const [Photos, setPhotos] = useState([]);
+  const [Tags, setTags] = useState([]);
 
   useEffect(() => {
     dispatch(getPostDetail(param)).then((res) => {
       setPost(res.payload.posts);
       setPhotos(res.payload.posts.photos);
+      setTags(res.payload.posts.tags);
     });
   }, []);
 
@@ -77,6 +79,13 @@ function ViewPostDetail() {
         >
           <p>{Post.title}</p>
           <div>{Post.description}</div>
+          <div>
+            <div>
+              {Tags.map((tag) => (
+                <div>#{tag}</div>
+              ))}
+            </div>
+          </div>
           <div>Date: {Post.posttime}</div>
           <div>
             Like: {Post.likecnt} View: {Post.viewcnt}

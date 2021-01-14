@@ -12,6 +12,7 @@ function Post({ post }) {
   const [CommentToggle, setCommentToggle] = useState(false);
   const [CommentNum, setCommentNum] = useState(post.commentcnt);
   const [ViewNum, setViewNum] = useState(post.viewcnt);
+  const [Tags, setTags] = useState([]);
 
   return (
     <div>
@@ -43,6 +44,11 @@ function Post({ post }) {
             <div>{post.title}</div>
           </a>
           <div>{post.description}</div>
+          <div>
+            {Tags.map((tag) => (
+              <div>#{tag}</div>
+            ))}
+          </div>
           <div>Date: {post.posttime}</div>
           <div
             style={{

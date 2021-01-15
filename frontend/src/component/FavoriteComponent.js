@@ -15,7 +15,7 @@ function FavoriteComponent({ postid, postlikecnt }) {
   useEffect(() => {
     dispatch(isFavorite(postid))
       .then((res) => {
-        FavoriteToggle(res);
+        setFavoriteToggle(res.payload.favorite);
       })
       .catch((err) => {
         console.log(err);
@@ -33,10 +33,16 @@ function FavoriteComponent({ postid, postlikecnt }) {
 
   //좋아요 토글
   const favoriteClick = () => {
+    //지금 상태와 반대의 상태를 서버에 보내기
     const bool = !FavoriteToggle;
     dispatch(postFavorite(postid, bool))
       .then((res) => {
-        setFavoriteNum(FavoriteNum + 1);
+        console.log(res);
+        if (res.payload.status === 'add') {
+          setFavoriteNum(FavoriteNum + 1);
+        } else {
+          setFavoriteNum(FavoriteNum - 1);
+        }
         setFavoriteToggle(bool);
       })
       .catch((err) => {

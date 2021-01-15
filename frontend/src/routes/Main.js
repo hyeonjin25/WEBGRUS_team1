@@ -9,24 +9,27 @@ function Main() {
 
   useEffect(() => {
     dispatch(getAllpost()).then((res) => {
-      setPosts(res.payload.posts);
+      setPosts(res.payload);
     });
   }, []);
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <div style={{ width: "80vw", display: "flex", justifyContent: "center" }}>
-        {Posts.map((post) => (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
-            }}
-          >
-            <Post post={post} key={post.postid} />
-          </div>
-        ))}
+        {Posts
+          ? Posts.map((post) => (
+              <div
+                key={post._id}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  flexWrap: "wrap",
+                }}
+              >
+                <Post post={post} key={post._id} />
+              </div>
+            ))
+          : ""}
       </div>
     </div>
   );

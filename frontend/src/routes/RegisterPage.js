@@ -79,6 +79,7 @@ function SignUp(props) {
     //액션
     await props.registerUser(body).then((res) => {
       if (res) {
+        alert("회원가입을 축하합니다! 사이트를 이용하시려면 로그인해주세요.");
         history.push("/login");
       } else {
         alert("회원가입에 실패했습니다");

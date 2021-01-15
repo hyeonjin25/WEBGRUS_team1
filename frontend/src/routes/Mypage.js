@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
 import Post from "../component/Post";
-import { useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { getUserposts } from "../_actions/postAction";
 
-function Mypage() {
+function Mypage(props) {
   const [Posts, setPosts] = useState([]);
-  const dispatch = useDispatch();
-  const userid = useSelector((state) => state.auth.userData.userid);
+  const auth = props.auth;
+
   useEffect(() => {
-    dispatch(getUserposts(userid)).then((res) => {
-      setPosts(res.payload.posts);
-    });
-  }, []);
+    //auth action에서 userData를 가져올 때 까지 기다리기
+    if (auth.status.auth === "SUCCESS") {
+      const userid = auth.userData.userid;
+      props.getUserposts(userid).then((res) => {
+        setPosts(res.payload);
+      });
+    }
+  }, [auth.status.auth]);
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
@@ -23,19 +27,26 @@ function Mypage() {
           justifyContent: "flex-start",
         }}
       >
-        {Posts.map((post) => (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Post post={post} key={post.postid} />
-          </div>
-        ))}
+        {Posts
+          ? Posts.map((post) => (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+                key={post._id}
+              >
+                <Post post={post} key={post._id} />
+              </div>
+            ))
+          : ""}
       </div>
     </div>
   );
 }
 
-export default Mypage;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { getUserposts })(Mypage);

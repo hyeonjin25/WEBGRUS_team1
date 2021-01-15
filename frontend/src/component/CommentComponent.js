@@ -5,24 +5,18 @@ import {
   deleteComment,
 } from "../_actions/commentAction";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function CommentComponent({ postid, comments, CommentToggle }) {
   const [CommentValue, setCommentValue] = useState("");
   const [ModifyCommentValue, setModifyCommentValue] = useState("");
   const [Comments, setComments] = useState(comments);
   const [IsModify, setIsModify] = useState(false);
-  const [IsLogined, setIsLogined] = useState(false);
 
   const userid = "hj2525";
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (userid) {
-      setIsLogined(true);
-    }
-  }, []);
+  const auth = useSelector((state) => state.auth);
 
   const onChangeComment = (e) => {
     setCommentValue(e.target.value);
@@ -33,14 +27,18 @@ function CommentComponent({ postid, comments, CommentToggle }) {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const body = { userid, content: CommentValue };
-    dispatch(updateComment(postid, body))
-      .then((res) => {
-        setComments(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (auth.userData.userid) {
+      const body = { content: CommentValue };
+      dispatch(updateComment(postid, body))
+        .then((res) => {
+          setComments(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      alert("로그인이 필요한 기능입니다!");
+    }
   };
 
   //댓글 수정칸 열기
@@ -171,7 +169,7 @@ function CommentComponent({ postid, comments, CommentToggle }) {
               </div>
             ))}
           </div>
-          {IsLogined ? <writeComment /> : ""}
+          <writeComment />
         </div>
       ) : (
         ""

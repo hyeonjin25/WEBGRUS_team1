@@ -105,9 +105,12 @@ function Newpost(props) {
       Files.forEach((file) => {
         formdata.append("photos", file);
       });
-      
+
       if (Description) formdata.append("description", Description);
-      if (Tags.length > 0) formdata.append("tags", Tags);
+      if (Tags.length > 0) {
+        Tags.forEach((tag)=>{
+          formdata.append("tags", tag)
+        })
 
       dispatch(fileUpload(formdata)).then((res) => {
         //업로드 성공시 업로드된 페이지로 이동
@@ -175,7 +178,7 @@ function Newpost(props) {
         {Tags
           ? Tags.map((tag) => (
               <div key={tag}>
-                #{tag}{" "}
+                #{tag}
                 <button
                   type='button'
                   onClick={(e) => {

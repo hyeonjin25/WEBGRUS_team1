@@ -17,8 +17,8 @@ export default function (SpecificComponent, option) {
       //서버에서 토큰 검증하기
       disptch(authenticationCheck());
 
-      //로그인 하지 않은 상태에서
-      if (!auth.isAuth) {
+      if (auth.status.auth === "FAILURE") {
+        //로그인 하지 않은 상태에서
         //로그인 해야하는 페이지에 들어가려 할 떄
         if (option) {
           //로그인 페이지로 보내기
@@ -27,7 +27,7 @@ export default function (SpecificComponent, option) {
         }
       }
       //로그인 한 상태에서
-      else {
+      else if(auth.status.auth === "SUCCESS"){
         //로그인한 유저가 출입할 수 없는 페이지에 가려고 할 떄 (로그인페이지, 회원가입페이지)
         if (option === false) {
           props.history.push("/");

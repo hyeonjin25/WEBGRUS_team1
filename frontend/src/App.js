@@ -26,7 +26,7 @@ function App() {
             <Route exact path='/register' component={Auth(RegisterPage,false)} />
             <Route exact path='/mypage' component={Auth(Mypage,true)} />
             <Route exact path='/newpost' component={Auth(Newpost,true)} />
-            <Route exact path='/postDetail/:userid/:postid' component={Auth(PostDetail,null)} />
+            <Route exact path='/postDetail/:postid' component={Auth(PostDetail,null)} />
             <Route exact path='/postModify/:postid' component={Auth(PostModify,true)} />
             <Route exact path='/userDetail/:userid' component={Auth(UserDetail,null)} />
           </Switch>

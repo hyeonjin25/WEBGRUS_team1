@@ -4,7 +4,7 @@ import { UPDATE_COMMENT, MODIFY_COMMENT, DELETE_COMMENT } from "./types";
 
 
 //포스트 댓글 추가
-export function updateComment(postid, body) {
+export function updateComment({postid, body}) {
   const request = axios
     .post(`${SERVER_API}/api/posts/${postid}/comments`, body)
     .then((res) => res.data);
@@ -15,9 +15,9 @@ export function updateComment(postid, body) {
 }
 
 //포스트 댓글 수정
-export function modifyComment(postid, index, body) {
+export function modifyComment({postid, commentid, body}) {
   const request = axios
-    .put(`${SERVER_API}/api/posts/${postid}/comments/${index}`, body)
+    .put(`${SERVER_API}/api/posts/${postid}/comments/${commentid}`, body)
     .then((res) => res.data);
   return {
     type: MODIFY_COMMENT,
@@ -26,9 +26,9 @@ export function modifyComment(postid, index, body) {
 }
 
 //포스트 댓글 삭제
-export function deleteComment(postid, index, body) {
+export function deleteComment({postid, commentid}) {
   const request = axios
-    .delete(`${SERVER_API}/api/posts/${postid}/comments/${index}`, body)
+    .delete(`${SERVER_API}/api/posts/${postid}/comments/${commentid}`)
     .then((res) => res.data);
   return {
     type: DELETE_COMMENT,

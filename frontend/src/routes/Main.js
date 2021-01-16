@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Post from "../component/Post";
 import { getAllpost } from "../_actions/postAction";
-import { useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 
-function Main() {
+function Main(props) {
   const [Posts, setPosts] = useState([]);
   const dispatch = useDispatch();
 
@@ -15,24 +15,34 @@ function Main() {
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
-      <div style={{ width: "80vw", display: "flex", justifyContent: "center" }}>
-        {Posts
-          ? Posts.map((post) => (
-              <div
-                key={post._id}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  flexWrap: "wrap",
-                }}
-              >
-                <Post post={post} key={post._id} />
-              </div>
-            ))
-          : ""}
-      </div>
+      {!props.post.allpost ? (
+        <div style={{ height: "100vh" }}></div>
+      ) : (
+        <div
+          style={{ width: "80vw", display: "flex", justifyContent: "center" }}
+        >
+          {Posts
+            ? Posts.map((post) => (
+                <div
+                  key={post._id}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <Post post={post} key={post._id} />
+                </div>
+              ))
+            : ""}
+        </div>
+      )}
     </div>
   );
 }
 
-export default Main;
+const mapStateToProps = (state) => ({
+  post: state.post,
+});
+
+export default connect(mapStateToProps)(Main);

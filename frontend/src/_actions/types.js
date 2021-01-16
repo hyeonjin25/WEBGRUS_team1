@@ -16,7 +16,8 @@ export const UPLOAD_FAILURE = "UPLOAD_FAILURE";
 export const GET_USERPOSTS = "GET_USERPOSTS";
 export const GET_POSTDETAIL = "GET_POSTDETAIL";
 export const GET_ALLPOST = "GET_ALLPOST";
-export const POST_MODIFY = "POST_MODIFY";
+export const MODIFY_SUCCESS = "MODIFY_SUCCESS";
+export const MODIFY_FAILURE = "  MODIFY_FAILURE";
 export const POST_DELETE = "POST_DELETE";
 
 //followAction

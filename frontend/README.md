@@ -1,70 +1,135 @@
-# Getting Started with Create React App
+# 디자이너 포트폴리오 사이트
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+(Create React App을 이용함)
 
-## Available Scripts
+## 구성
 
-In the project directory, you can run:
+#### 네비게이션 바
 
-### `npm start`
+component/bar/Navbar.js
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- 모든 페이지 상단에 공통으로 적용
+- 기능
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+  - 왼쪽 : 사이트 로고를 클릭시 메인페이지로 이동
+  - 오른쪽 : 로그인, 회원가입, 디자인 올리기, 마이페이지, 로그아웃 버튼 띄움
 
-### `npm test`
+- 컴포넌트:
+  - 오른쪽 기능 컴포넌트 : component/Rightnav.js
+  - 유저메뉴 컴포넌트 : component/menubar.js (Rightnav.js에서 사용)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+component/Rightnav.js
 
-### `npm run build`
+- 로그인 했을 경우 : 디자인 올리기, 유저메뉴(마이페이지, 로그아웃) 버튼 띄움
+- 로그인 하지 않았을 경우 : 로그인, 회원가입 버튼 띄움
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+component/menubar.js
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- 클릭시 마이페이지, 로그아웃 버튼 띄움
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### 푸터
 
-### `npm run eject`
+component/bar/Footer.js
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- 모든 페이지 하단에 공통으로 적용
+- 사이트 정보 제공 (미구현)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 페이지 소개
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### 1. 메인페이지
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+routes/Main.js
 
-## Learn More
+- 아무나 접근 가능
+- 기능
+  - 게시물 정렬 기능 (미구현)
+  - 태그 검색 기능 (미구현)
+- 컴포넌트:
+  - 각각의 게시물 컴포넌트 : component/Post.js
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+component/Post.js
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- 작성자, 첫번째 사진, 제목, 작품설명 앞부분, 태그, 올린 날짜, 좋아요 수, 뷰 수, 댓글 수 볼 수 있음
+- 로그인 한 사람만 좋아요 누르기 가능
+- 좋아요 컴포넌트 : component/FavoriteComponent.js
 
-### Code Splitting
+#### 2. 게시물 업로드 페이지
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+routes/Newpost.js
 
-### Analyzing the Bundle Size
+- 로그인 한 사람만 접근 가능
+- 기능
+  - 제목, 작품설명, 태그, 이미지 업로드 가능
+  - 이미지 업로드 기능은 react-dropzone 사용함
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+#### 3. 마이페이지
 
-### Making a Progressive Web App
+routes/Mypage.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- 로그인 한 사람만 접근 가능
+- 기능
+  - 자신이 업로드한 게시물들 모아 볼 수 있음
+- 컴포넌트:
+  - 각각의 게시물 컴포넌트 : component/Post.js (메인페이지에서 부른 컴포넌트와 동일)
 
-### Advanced Configuration
+#### 4. 파일 상세보기 페이지
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+routes/PostDetail.js
 
-### Deployment
+- 아무나 접근 가능
+- 기능:
+  - 로그인 돼있을 경우 게시물 수정, 삭제 가능
+  - 로그인 안돼있을 경우 작성자 팔로우 가능
+  - 로그인 여부에 상관없이 게시물 상세보기 및 댓글보기 가능
+- 컴포넌트:
+  - 게시물 상세보기 컴포넌트 : component/ViewPostDetail.js
+  - 댓글보기 컴포넌트 : component/CommentComponent.js
+  - 작성자 팔로우 컴포넌트 : component/FollowComponent.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+component/ViewPostDetail.js
 
-### `npm run build` fails to minify
+- PostDetail.js에 보여질 게시물 구성 (제목, 작품설명, 태그, 이미지, 올린날짜 보여줌)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+component/CommentComponent.js
+
+- PostDetail.js에 보여질 댓글 구성 (댓글 입력창, 달린 댓글들)
+- 댓글 입력은 로그인 돼있을 경우만 가능
+
+#### 5. 유저 상세보기 페이지
+
+routes/UserDetail.js
+
+- 아무나 접근 가능
+- 포스트의 작성자를 클릭하여 접근 가능
+- 기능:
+  - 해당 유저가 올린 게시물들을 볼 수 있음
+  - 해당 유저를 팔로우 할 수 있음
+- 컴포넌트:
+  - 각각의 게시물 컴포넌트 : component/Post.js (메인페이지에서 부른 컴포넌트와 동일)
+  - 작성자 팔로우 컴포넌트 : component/FollowComponent.js (파일 상세보기 페이지에서 부른 컴포넌트와 동일)
+
+#### 6. 게시물 수정 페이지
+
+routes/PostModify.js
+
+- 게시물을 올린 작성자만 접근 가능
+- 기능:
+  - 게시물의 제목, 작품설명, 태그, 이미지 변경 가능 (게시물 업로드 페이지와 비슷)
+
+#### 7. 검색 페이지 (미구현)
+
+#### 8. 로그인 페이지
+
+routes/LoginPage.js
+
+- 로그인 안 돼있을 경우만 접근 가능
+- 기능:
+  - 로그인 기능 (아이디와 비밀번호 필수 입력)
+
+#### 9. 회원가입 페이지
+
+routes/RegisterPage.js
+
+- 로그인 안 돼있을 경우만 접근 가능
+- 기능:
+  - 회원가입 기능 (성, 이름, 아이디, 이메일, 비밀번호, 비밀번호확인 필수 입력)

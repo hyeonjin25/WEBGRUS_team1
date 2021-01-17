@@ -42,14 +42,14 @@ function SimpleMenu(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem>
+        {/* <MenuItem>
           <Link
             to={{ pathname: "" }}
             style={{ textDecoration: "none", color: "black" }}
           >
             내 계정
           </Link>
-        </MenuItem>
+        </MenuItem> */}
 
         <MenuItem>
           <Link

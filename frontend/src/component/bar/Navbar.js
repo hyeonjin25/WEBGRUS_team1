@@ -1,7 +1,7 @@
 import React from "react";
-import Left from "./Leftnav";
+import { Link } from "react-router-dom";
 import Right from "./Rightnav";
-import './bar.scss'
+import "./bar.scss";
 
 function Navbar() {
   return (
@@ -10,16 +10,16 @@ function Navbar() {
       style={{
         backgroundColor: "pink",
         height: "60px",
-        display:"flex",
+        display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
       }}
     >
       <div style={{ marginLeft: "10px" }}>
-        <Left />
+        <Link to={{ pathname: "/" }}>사이트이름</Link>
       </div>
-      <div style={{ marginRight: "10px"}}>
+      <div style={{ marginRight: "10px" }}>
         <Right />
       </div>
     </div>

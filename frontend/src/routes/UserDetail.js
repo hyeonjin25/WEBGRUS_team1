@@ -13,7 +13,7 @@ function UserDetail() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserposts(userid)).then((res) => {
-      setPosts(res.payload.posts);
+      setPosts(res.payload);
     });
   }, []);
   return (
@@ -31,16 +31,19 @@ function UserDetail() {
             justifyContent: "flex-start",
           }}
         >
-          {Posts.map((post) => (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <Post post={post} key={post.postid} />
-            </div>
-          ))}
+          {Posts
+            ? Posts.map((post) => (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                  key={post._id}
+                >
+                  <Post post={post} />
+                </div>
+              ))
+            : ""}
         </div>
       </div>
     </div>

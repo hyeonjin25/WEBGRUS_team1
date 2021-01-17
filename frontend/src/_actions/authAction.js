@@ -24,8 +24,11 @@ export const authenticationCheck = () => (dispatch) => {
 
   //localstorage의 token 가져오기
   const token = localStorage.getItem("token");
-
-  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  if (token) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else {
+    delete axios.defaults.headers.common["Authorization"];
+  }
 
   return axios
     .post(`${SERVER_API}/api/auth/check`)

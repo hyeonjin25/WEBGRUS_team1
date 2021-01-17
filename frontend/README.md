@@ -2,6 +2,9 @@
 
 (Create React App을 이용함)
 
+- npm start로 시작 가능
+- 시작 전 npm install 필요
+
 ## 구성
 
 #### 네비게이션 바

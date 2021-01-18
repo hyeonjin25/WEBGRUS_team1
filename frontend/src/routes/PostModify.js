@@ -152,7 +152,7 @@ function PostModify(props) {
               flexDirection: "column",
             }}
           >
-            <h1>UPLOAD</h1>
+            <h1>MODIFY</h1>
             제목
             <input
               style={{ width: 500, height: 20 }}

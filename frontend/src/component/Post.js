@@ -1,33 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { SERVER_API } from "../_actions/config";
-import Axios from "axios";
 
 import Comment from "@material-ui/icons/Comment";
 import Visibility from "@material-ui/icons/Visibility";
 import FavoriteComponent from "../component/FavoriteComponent";
-import CommentComponent from "../component/CommentComponent";
 
 function Post({ post }) {
-  const [CommentToggle, setCommentToggle] = useState(false);
   const [CommentNum, setCommentNum] = useState(post.commentcnt);
   const [ViewNum, setViewNum] = useState(post.viewcnt);
   const [Tags, setTags] = useState([]);
-  const [FilePath, setFilePath] = useState("");
 
   const postid = post._id;
   const posttime = post.posttime;
   const year = posttime.substring(0, 4);
   const month = posttime.substring(5, 7);
   const date = posttime.substring(8, 10);
-
-  useEffect(() => {
-    console.log(post.files[0].filename);
-    //첫번째 이미지만 보여주기
-    Axios.get(`${SERVER_API}/images/${post.files[0].filename}`).then((res) => {
-      setFilePath(res);
-      console.log(res);
-    });
-  }, []);
 
   return (
     <div>
@@ -42,7 +29,10 @@ function Post({ post }) {
         <a href={`/userDetail/${post.owner}`}>{post.owner}</a>
         <a href={`/postDetail/${postid}`}>
           {/* 제일 첫번째 사진 보여주기 */}
-          <img src={FilePath} style={{ width: 290, height: 290 }} />
+          <img
+            src={`${SERVER_API}/images/${post.files[0].filename}`}
+            style={{ width: 290, height: 290 }}
+          />
         </a>
         <div
           style={{

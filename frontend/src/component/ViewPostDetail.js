@@ -1,31 +1,12 @@
-import React, { useEffect, useState, Component } from "react";
-import { useParams } from "react-router-dom";
+import React from "react";
 import { SERVER_API } from "../_actions/config";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../component/_slick-theme.css";
 
-import { useDispatch } from "react-redux";
-import { getPostDetail } from "../_actions/postAction";
-
 //PostDetail 페이지의 해당 포스트 보여주기
-function ViewPostDetail() {
-  //주소로 넘어온 파라미터 받기
-  const param = useParams();
-  const dispatch = useDispatch();
-
-  const [Post, setPost] = useState([]);
-  const [Photos, setPhotos] = useState([]);
-  const [Tags, setTags] = useState([]);
-
-  useEffect(() => {
-    dispatch(getPostDetail(param)).then((res) => {
-      setPost(res.payload.posts);
-      setPhotos(res.payload.posts.photos);
-      setTags(res.payload.posts.tags);
-    });
-  }, []);
+function ViewPostDetail({ post, files, posttime, tags }) {
 
   const slickSettings = {
     dots: true,
@@ -37,7 +18,6 @@ function ViewPostDetail() {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
       <div
         style={{
           borderStyle: "solid",
@@ -45,28 +25,30 @@ function ViewPostDetail() {
           margin: "5px 5px 5px 10px",
         }}
       >
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          {/* 사진들 보여주기 */}
-          <Slider
-            {...slickSettings}
-            style={{
-              borderStyle: "solid",
-              width: 500,
-            }}
-          >
-            {Photos.map((photo) => (
-              <div>
-                <img
-                  src={`${SERVER_API}/${photo.path}`}
-                  // src='https://postfiles.pstatic.net/MjAyMDEyMDRfNDgg/MDAxNjA3MDkzOTY5NzQx.aiWaOE9spN6qRdX5Yxc3TVnGmkbTYosj9X0j9o3Fh8Ig.Z5qNMeLnm5CgOvLO1iNfqm9x3H4FrQbu527d82qXxbUg.JPEG.wlduddl9604/IMG_5736.jpg?type=w580'
-                  style={{
-                    width: 500,
-                    height: 500,
-                  }}
-                />
-              </div>
-            ))}
-          </Slider>
+        <div style={{ display: "flex", alignItems: "center", flexDirection:'column' }}>
+          {/* 사진들 보여주기 - 사진 여러개면 slick사용 */}
+
+          {/* <Slider
+              {...slickSettings}
+              style={{
+                borderStyle: "solid",
+                width: 500,
+              }}
+            > */}
+          {files
+            ? files.map((file) => (
+                <div key={file._id}>
+                  <img
+                    src={`${SERVER_API}/images/${file.filename}`}
+                    style={{
+                      width: 500,
+                      height: 500,
+                    }}
+                  />
+                </div>
+              ))
+            : ""}
+          {/* </Slider> */}
         </div>
 
         <div
@@ -77,22 +59,19 @@ function ViewPostDetail() {
             whiteSpace: "nowrap",
           }}
         >
-          <p>{Post.title}</p>
-          <div>{Post.description}</div>
+          <p>{post.title}</p>
+          <div>{post.description}</div>
           <div>
             <div>
-              {Tags.map((tag) => (
-                <div>#{tag}</div>
-              ))}
+              {tags ? tags.map((tag) => <div key={tag}>#{tag}</div>) : ""}
             </div>
           </div>
-          <div>Date: {Post.posttime}</div>
+          <div>Date: {posttime}</div>
           <div>
-            Like: {Post.likecnt} View: {Post.viewcnt}
+            Like: {post.likecnt} View: {post.viewcnt}
           </div>
         </div>
       </div>
-    </div>
   );
 }
 

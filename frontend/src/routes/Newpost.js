@@ -41,6 +41,10 @@ function Newpost(props) {
     setCurrentTag(e.target.value);
   };
 
+  const onTagKeyPress = (e) => {
+    if (e.key === "Enter") onTagClick();
+  };
+
   //태그 추가하기
   const onTagClick = (e) => {
     e.preventDefault();
@@ -166,6 +170,7 @@ function Newpost(props) {
           label='태그'
           variant='outlined'
           onChange={onCurrentTag}
+          onKeyPress={onTagKeyPress}
         />
         <Button
           type='button'

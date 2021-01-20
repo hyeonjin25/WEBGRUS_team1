@@ -35,7 +35,7 @@ function PostModify(props) {
       setPhotos(res.payload.files);
       setDescription(res.payload.description);
       setTags(res.payload.tags);
-    });
+    },[]);
 
     //썸네일 주소 삭제
     return () => {
@@ -53,6 +53,10 @@ function PostModify(props) {
 
   const onCurrentTag = (e) => {
     setCurrentTag(e.target.value);
+  };
+
+  const onTagKeyPress = (e) => {
+    if (e.key === "Enter") onTagClick();
   };
 
   //태그 추가하기
@@ -177,6 +181,7 @@ function PostModify(props) {
                 value={CurrentTag}
                 name='tag'
                 onChange={onCurrentTag}
+                onKeyPress={onTagKeyPress}
               />
               <button type='button' onClick={onTagClick}>
                 추가

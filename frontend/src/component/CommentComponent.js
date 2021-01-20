@@ -1,34 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useDispatch, connect } from "react-redux";
-import {
-  updateComment,
-  modifyComment,
-  deleteComment,
-} from "../_actions/commentAction";
+import { modifyComment, deleteComment } from "../_actions/commentAction";
 
 import { getPostDetail } from "../_actions/postAction";
 
 function CommentComponent(props) {
-  const [Comments, setComments] = useState([]);
+  console.log(props);
+  const [Comments, setComments] = useState([props.comments]);
   const [CommentValue, setCommentValue] = useState(""); //댓글 입력값
   const [ModifyCommentValue, setModifyCommentValue] = useState(""); //수정하는 댓글 입력값
   const [IsModify, setIsModify] = useState(false);
 
-  const postid = props.postid;
-
-  useEffect(() => {
-    props.getPostDetail(postid);
-    // .then((res) => {
-    //   setComments(res.payload.comments);
-    // });
-    if (props.post.postDetail) {
-      setComments(props.post.postDetail.comments);
-      console.log(props.post.postDetail);
-    }
-  }, []);
-
   const dispatch = useDispatch();
   const auth = props.auth;
+  const postid = props.postid;
 
   const onChangeComment = (e) => {
     setCommentValue(e.target.value);
@@ -47,17 +32,26 @@ function CommentComponent(props) {
     return `${year}. ${month}. ${date}.`;
   };
 
+  //댓글 업데이트
+  const updateComment = useCallback((newComment) => {
+    setComments(Comments.concat(newComment));
+  }, []);
+
+  //댓글 삭제 업데이트
+  const updateDeleteComment = useCallback((commentid) => {
+    setComments(Comments.Filter((comment) => comment._id !== commentid));
+  }, []);
+
   //댓글 올리기
   const onSubmit = (e) => {
     e.preventDefault();
 
+    //로그인 돼있을 때만 가능
     if (auth.isAuth) {
       const body = { content: CommentValue };
       dispatch(updateComment({ postid, body }))
         .then((res) => {
-          dispatch(getPostDetail(postid)).then((res) => {
-            setComments(res.payload.comments);
-          });
+          updateComment(res.payload);
           setCommentValue("");
         })
         .catch((err) => {
@@ -70,7 +64,7 @@ function CommentComponent(props) {
   };
 
   //댓글 수정칸 열기
-  const onmodify = (commentid) => {
+  const onmodify = useCallback((commentid) => {
     console.log(commentid);
     //수정할 댓글 찾기
     for (let i = 0; i < Comments.length; i++) {
@@ -82,7 +76,7 @@ function CommentComponent(props) {
     }
     console.log(ModifyCommentValue);
     setIsModify(true);
-  };
+  }, [commentid]);
 
   //수정한 댓글 올리기
   const onModifySubmit = (e, commentid) => {
@@ -91,9 +85,7 @@ function CommentComponent(props) {
     const body = { content: ModifyCommentValue };
     dispatch(modifyComment({ postid, commentid, body }))
       .then((res) => {
-        dispatch(getPostDetail(postid)).then((res) => {
-          setComments(res.payload.comments);
-        });
+        updateComment(res.payload);
         setIsModify(false);
       })
       .catch((err) => {
@@ -107,9 +99,7 @@ function CommentComponent(props) {
 
     dispatch(deleteComment({ postid, commentid }))
       .then((res) => {
-        dispatch(getPostDetail(postid)).then((res) => {
-          setComments(res.payload.comments);
-        });
+        updateDeleteComment(commentid);
       })
       .catch((err) => {
         console.log(err);
@@ -160,11 +150,48 @@ function CommentComponent(props) {
     </div>
   );
 
+  useMemo(() => function CommentsArray(){
+    return(
+    <div
+      style={{
+        maxHeight: "400px",
+        overflowY: "auto",
+      }}
+    >
+      {Comments
+        ? Comments.map((comment) => (
+            <div
+              style={{ borderStyle: "solid", margin: "5px" }}
+              key={comment}
+            >
+              <div>작성자: {comment.owner} </div>
+              <div>{comment.content} </div>
+              <div>{commentTime(comment.posttime)} </div>
+              {/* 내가 작성한 댓글일 때만 수정, 삭제 버튼 나타남 */}
+              {auth.userData &&
+              auth.userData.userid === comment.owner ? (
+                <div>
+                  <button type='button' onClick={onmodify(comment._id)}>
+                    수정
+                  </button>
+                  <button
+                    type='button'
+                    onClick={(e) => ondelete(e, comment._id)}
+                  >
+                    삭제
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          ))
+        : ""}
+    </div>)
+  }, [Comments])
+
   return (
     <>
-      {!props.post.postDetail ? (
-        ""
-      ) : (
         <div
           style={{
             width: "1000px",
@@ -176,45 +203,9 @@ function CommentComponent(props) {
           {!props.post.postDetail ? (
             <div></div>
           ) : (
-            <div
-              style={{
-                maxHeight: "400px",
-                overflowY: "auto",
-              }}
-            >
-              {Comments
-                ? Comments.map((comment) => (
-                    <div
-                      style={{ borderStyle: "solid", margin: "5px" }}
-                      key={comment}
-                    >
-                      <div>작성자: {comment.owner} </div>
-                      <div>{comment.content} </div>
-                      <div>{commentTime(comment.posttime)} </div>
-                      {/* 내가 작성한 댓글일 때만 수정, 삭제 버튼 나타남 */}
-                      {auth.userData &&
-                      auth.userData.userid === comment.owner ? (
-                        <div>
-                          <button type='button' onClick={onmodify(comment._id)}>
-                            수정
-                          </button>
-                          <button
-                            type='button'
-                            onClick={(e) => ondelete(e, comment._id)}
-                          >
-                            삭제
-                          </button>
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  ))
-                : ""}
-            </div>
+            {CommentsArray()}
           )}
         </div>
-      )}
     </>
   );
 }

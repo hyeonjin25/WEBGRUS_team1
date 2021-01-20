@@ -5,16 +5,31 @@ import Comment from "@material-ui/icons/Comment";
 import Visibility from "@material-ui/icons/Visibility";
 import FavoriteComponent from "../component/FavoriteComponent";
 
-function Post({ post }) {
-  const [CommentNum, setCommentNum] = useState(post.commentcnt);
-  const [ViewNum, setViewNum] = useState(post.viewcnt);
-  const [Tags, setTags] = useState([]);
+function Post({
+  postid,
+  owner,
+  title,
+  description,
+  files,
+  tags,
+  posttime,
+  likecnt,
+  viewcnt,
+  commentcnt,
+}) {
+  const [Likecnt, setLikecnt] = useState(likecnt);
 
-  const postid = post._id;
-  const posttime = post.posttime;
-  const year = posttime.substring(0, 4);
-  const month = posttime.substring(5, 7);
-  const date = posttime.substring(8, 10);
+  const posttimeView = (posttime) => {
+    const year = posttime.substring(0, 4);
+    const month = posttime.substring(5, 7);
+    const date = posttime.substring(8, 10);
+    return (
+      <div>
+        Date: {year}. {month}. {date}.
+      </div>
+    );
+  };
+
 
   return (
     <div>
@@ -26,11 +41,11 @@ function Post({ post }) {
           padding: "5px",
         }}
       >
-        <a href={`/userDetail/${post.owner}`}>{post.owner}</a>
+        <a href={`/userDetail/${owner}`}>{owner}</a>
         <a href={`/postDetail/${postid}`}>
           {/* 제일 첫번째 사진 보여주기 */}
           <img
-            src={`${SERVER_API}/images/${post.files[0].filename}`}
+            src={`${SERVER_API}/images/${files[0].filename}`}
             style={{ width: 290, height: 290 }}
           />
         </a>
@@ -43,17 +58,15 @@ function Post({ post }) {
           }}
         >
           <a href={`/postDetail/${postid}`}>
-            <div>{post.title}</div>
+            <div>{title}</div>
           </a>
-          <div>{post.description}</div>
+          <div>{description}</div>
           <div>
-            {Tags.map((tag) => (
+            {tags.map((tag) => (
               <div key={tag}>#{tag}</div>
             ))}
           </div>
-          <div>
-            Date: {year}. {month}. {date}.
-          </div>
+          {posttimeView(posttime)}
           <div
             style={{
               width: "60%",
@@ -61,14 +74,14 @@ function Post({ post }) {
               justifyContent: "space-between",
             }}
           >
-            <FavoriteComponent postid={postid} postlikecnt={post.likecnt} />
+            <FavoriteComponent postid={postid} postlikecnt={Likecnt} />
             <div>
-              <Visibility /> {ViewNum}
+              <Visibility /> {viewcnt}
             </div>
 
             <div>
               <Comment />
-              {CommentNum}
+              {commentcnt}
             </div>
           </div>
         </div>

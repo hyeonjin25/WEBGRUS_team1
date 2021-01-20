@@ -15,7 +15,7 @@ function Mypage(props) {
         setPosts(res.payload);
       });
     }
-  }, [auth.status.auth]);
+  }, []);
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
@@ -36,7 +36,19 @@ function Mypage(props) {
                 }}
                 key={post._id}
               >
-                <Post post={post} key={post._id} />
+                <Post
+                  key={post._id}
+                  postid={post._id}
+                  owner={post.owner}
+                  title={post.title}
+                  description={post.description}
+                  files={post.files}
+                  tags={post.tags}
+                  posttime={post.posttime}
+                  likecnt={post.likecnt}
+                  viewcnt={post.viewcnt}
+                  commentcnt={post.commentcnt}
+                />
               </div>
             ))
           : ""}

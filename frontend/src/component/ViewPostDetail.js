@@ -6,7 +6,14 @@ import "slick-carousel/slick/slick-theme.css";
 import "../component/_slick-theme.css";
 
 //PostDetail 페이지의 해당 포스트 보여주기
-function ViewPostDetail({ post, files, posttime, tags }) {
+function ViewPostDetail({ postid,
+  title,
+  description,
+  files,
+  tags,
+  posttime,
+  likecnt,
+  viewcnt}) {
 
   const slickSettings = {
     dots: true,
@@ -59,8 +66,8 @@ function ViewPostDetail({ post, files, posttime, tags }) {
             whiteSpace: "nowrap",
           }}
         >
-          <p>{post.title}</p>
-          <div>{post.description}</div>
+          <p>{title}</p>
+          <div>{description}</div>
           <div>
             <div>
               {tags ? tags.map((tag) => <div key={tag}>#{tag}</div>) : ""}
@@ -68,7 +75,7 @@ function ViewPostDetail({ post, files, posttime, tags }) {
           </div>
           <div>Date: {posttime}</div>
           <div>
-            Like: {post.likecnt} View: {post.viewcnt}
+            Like: {likecnt} View: {viewcnt}
           </div>
         </div>
       </div>

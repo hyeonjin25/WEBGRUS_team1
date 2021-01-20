@@ -10,12 +10,12 @@ export default function (SpecificComponent, option) {
   //false   =>  로그인한 유저는 출입이 불가능한 페이지
 
   function AuthenticationCheck(props) {
-    const disptch = useDispatch();
+    const dispatch = useDispatch();
     const auth = props.auth;
 
     useEffect(() => {
       //서버에서 토큰 검증하기
-      disptch(authenticationCheck());
+      dispatch(authenticationCheck());
 
       if (auth.status.auth === "FAILURE") {
         //로그인 하지 않은 상태에서
@@ -28,12 +28,12 @@ export default function (SpecificComponent, option) {
       }
       //로그인 한 상태에서
       else if(auth.status.auth === "SUCCESS"){
-        //로그인한 유저가 출입할 수 없는 페이지에 가려고 할 떄 (로그인페이지, 회원가입페이지)
+        //로그인한 유저가 출입할 수 없는 페이지에 가려고 할 때 (로그인페이지, 회원가입페이지)
         if (option === false) {
           props.history.push("/");
         }
       }
-    }, []);
+    }, [dispatch, props.history]);
 
     return <SpecificComponent />;
   }

@@ -37,12 +37,14 @@ export const authenticationCheck = () => (dispatch) => {
         type: AUTH_SUCCESS,
         payload: res.data,
       });
+      return true
     })
     .catch((err) => {
       dispatch({
         type: AUTH_FAILURE,
         payload: err,
       });
+      return false
     });
 };
 

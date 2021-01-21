@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import Post from "../component/Post";
 import { getAllpost } from "../_actions/postAction";
 import { connect, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import SearchComponent from "../component/SearchComponent";
 
 function Main(props) {
-  const [Posts, setPosts] = useState([]);
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const [Posts, setPosts] = useState([]);
 
   useEffect(() => {
     dispatch(getAllpost()).then((res) => {
@@ -13,11 +17,14 @@ function Main(props) {
     });
   }, []);
 
+
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       {!props.post.allpost ? (
         <div style={{ height: "100vh" }}></div>
       ) : (
+        <div>
+        <SearchComponent/>
         <div
           style={{ width: "80vw", display: "flex", justifyContent: "center" }}
         >
@@ -31,11 +38,24 @@ function Main(props) {
                     flexWrap: "wrap",
                   }}
                 >
-                  <Post post={post} key={post._id} />
+                  <Post
+                    key={post._id}
+                    postid={post._id}
+                    owner={post.owner}
+                    title={post.title}
+                    description={post.description}
+                    files={post.files}
+                    tags={post.tags}
+                    posttime={post.posttime}
+                    likecnt={post.likecnt}
+                    viewcnt={post.viewcnt}
+                    commentcnt={post.commentcnt}
+                  />
                 </div>
               ))
             : ""}
         </div>
+      </div>
       )}
     </div>
   );

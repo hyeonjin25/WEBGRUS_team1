@@ -10,6 +10,7 @@ import Newpost from "./routes/Newpost";
 import PostDetail from "./routes/PostDetail";
 import PostModify from "./routes/PostModify";
 import UserDetail from "./routes/UserDetail";
+import SearchPage from "./routes/SearchPage";
 import Auth from './hoc/auth'
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
             <Route exact path='/postDetail/:postid' component={Auth(PostDetail,null)} />
             <Route exact path='/postModify/:postid' component={Auth(PostModify,true)} />
             <Route exact path='/userDetail/:userid' component={Auth(UserDetail,null)} />
+            <Route exact path='/search/:query' component={Auth(SearchPage,null)} />
           </Switch>
         </div>
         <Footer />

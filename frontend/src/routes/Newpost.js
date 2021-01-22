@@ -46,8 +46,7 @@ function Newpost(props) {
   };
 
   //태그 추가하기
-  const onTagClick = (e) => {
-    e.preventDefault();
+  const onTagClick = () => {
     if (CurrentTag) {
       if (Tags.length > 9) {
         alert("태그는 10개까지 입력하실 수 있습니다.");

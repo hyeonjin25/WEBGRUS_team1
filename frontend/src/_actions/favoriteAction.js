@@ -3,9 +3,9 @@ import { SERVER_API } from "./config";
 import { POST_FAVORITE, IS_FAVORITE } from "./types";
 
 //포스트 좋아요 토글
-export function postFavorite({postid, bool}) {
+export function postFavorite(postid) {
   const request = axios
-    .put(`${SERVER_API}/api/users/favorites/${postid}`, bool)
+    .put(`${SERVER_API}/api/users/favorites/${postid}`)
     .then((res) => res.data);
   return {
     type: POST_FAVORITE,

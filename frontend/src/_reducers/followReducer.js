@@ -4,11 +4,11 @@ import { IS_FOLLOW, FOLLOW_TOGGLE } from "../_actions/types";
 export default function (state = {}, action) {
   switch (action.type) {
     case IS_FOLLOW:
-      return { ...state, favorite: action.payload };
+      return { ...state, isFollow: action.payload };
       break;
 
     case FOLLOW_TOGGLE:
-      return { ...state, favorite: action.payload };
+      return { ...state, followToggle: action.payload };
       break;
 
     default:

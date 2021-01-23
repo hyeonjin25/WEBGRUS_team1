@@ -4,11 +4,11 @@ import { POST_FAVORITE, IS_FAVORITE } from "../_actions/types";
 export default function (state = {}, action) {
   switch (action.type) {
     case POST_FAVORITE:
-      return { ...state, favorite: action.payload };
+      return { ...state, favoriteToggle: action.payload };
       break;
 
     case IS_FAVORITE:
-      return { ...state, favorite: action.payload };
+      return { ...state, isFavorite: action.payload };
       break;
 
     default:

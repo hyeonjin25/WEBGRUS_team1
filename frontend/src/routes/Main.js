@@ -17,45 +17,49 @@ function Main(props) {
     });
   }, []);
 
-
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       {!props.post.allpost ? (
         <div style={{ height: "100vh" }}></div>
       ) : (
         <div>
-        <SearchComponent/>
-        <div
-          style={{ width: "80vw", display: "flex", justifyContent: "center" }}
-        >
-          {Posts
-            ? Posts.map((post) => (
-                <div
-                  key={post._id}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <Post
+          <SearchComponent />
+          <div
+            style={{
+              width: "80vw",
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "flex-start",
+            }}
+          >
+            {Posts
+              ? Posts.map((post) => (
+                  <div
                     key={post._id}
-                    postid={post._id}
-                    owner={post.owner}
-                    title={post.title}
-                    description={post.description}
-                    files={post.files}
-                    tags={post.tags}
-                    posttime={post.posttime}
-                    likecnt={post.likecnt}
-                    viewcnt={post.viewcnt}
-                    commentcnt={post.commentcnt}
-                  />
-                </div>
-              ))
-            : ""}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    <Post
+                      key={post._id}
+                      postid={post._id}
+                      owner={post.owner}
+                      title={post.title}
+                      description={post.description}
+                      files={post.files}
+                      tags={post.tags}
+                      posttime={post.posttime}
+                      likecnt={post.likecnt}
+                      viewcnt={post.viewcnt}
+                      commentcnt={post.commentcnt}
+                    />
+                  </div>
+                ))
+              : ""}
+          </div>
         </div>
-      </div>
       )}
     </div>
   );

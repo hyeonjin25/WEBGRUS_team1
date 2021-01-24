@@ -1,23 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { isFollow, followToggle } from "../_actions/followAction";
 
-function FollowComponent(params) {
-  const [IsFollow, setIsFollow] = useState(false);
+function FollowComponent({ userid }) {
   const dispatch = useDispatch();
-  const userid = params.userid;
+  const auth = useSelector((state) => state.auth);
+
+  const [IsFollow, setIsFollow] = useState(false);
 
   useEffect(() => {
-    dispatch(isFollow())
-      .then((res) => setIsFollow(res))
+    dispatch(isFollow(userid))
+      .then((res) => {
+        setIsFollow(res.payload.favorite);
+      })
       .catch((err) => console.log(err));
   }, []);
 
   const onFollow = () => {
-    const bool = !IsFollow;
-    dispatch(followToggle(userid, bool))
-      .then((res) => setIsFollow(bool))
-      .catch((err) => console.log(err));
+    if (auth.token) {
+      dispatch(followToggle(userid))
+        .then((res) => {
+          if (res.payload.status === "add") setIsFollow(true);
+          else if (res.payload.status === "del") {
+            setIsFollow(false);
+          }
+        })
+        .catch((err) => console.log(err));
+    } else {
+      alert("로그인 후 이용하실 수 있습니다.");
+    }
   };
 
   return (

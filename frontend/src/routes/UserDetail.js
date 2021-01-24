@@ -20,7 +20,7 @@ function UserDetail() {
     <div>
       <div style={{ marginLeft: "150px" }}>
         <h2>{userid}</h2>
-        <FollowComponent />
+        <FollowComponent userid={userid}/>
       </div>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div
@@ -40,7 +40,19 @@ function UserDetail() {
                   }}
                   key={post._id}
                 >
-                  <Post post={post} />
+                  <Post
+                  key={post._id}
+                  postid={post._id}
+                  owner={post.owner}
+                  title={post.title}
+                  description={post.description}
+                  files={post.files}
+                  tags={post.tags}
+                  posttime={post.posttime}
+                  likecnt={post.likecnt}
+                  viewcnt={post.viewcnt}
+                  commentcnt={post.commentcnt}
+                />
                 </div>
               ))
             : ""}

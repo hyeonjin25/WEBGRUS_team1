@@ -111,9 +111,9 @@ function Newpost(props) {
 
       if (Description) formdata.append("description", Description);
       if (Tags.length > 0) {
-        Tags.forEach((tag)=>{
-          formdata.append("tags", tag)
-        })
+        Tags.forEach((tag) => {
+          formdata.append("tags", tag);
+        });
       }
 
       dispatch(fileUpload(formdata)).then((res) => {
@@ -124,6 +124,20 @@ function Newpost(props) {
           alert("업로드에 실패했습니다.");
         }
       });
+    }
+  };
+
+  let DoubleSubmit = true;
+
+  //중복 제출 방지
+  const BlockDoubleSubmit = (e) => {
+    //첫 제출
+    if (DoubleSubmit) {
+      OnFileUpload(e);
+      DoubleSubmit = false;
+    } else {
+      alert("제출 중 입니다");
+      return false;
     }
   };
 
@@ -247,7 +261,12 @@ function Newpost(props) {
       >
         {ThumbnailView}
       </div>
-      <Button variant='contained' color='primary' onClick={OnFileUpload}>
+      <Button
+        type='submit'
+        variant='contained'
+        color='primary'
+        onClick={BlockDoubleSubmit}
+      >
         올리기
       </Button>
     </div>

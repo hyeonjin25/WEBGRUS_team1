@@ -22,20 +22,22 @@ function PostModify(props) {
   const post = props.post;
 
   const [Title, setTitle] = useState("");
-  const [Photos, setPhotos] = useState([]);
+  const [Files, setFiles] = useState([]); //원래 올려져있던 사진파일
+  const [NewFiles, setNewFiles] = useState([]); //새롭게 올릴 사진파일
+  const [DeleteFiles, setDeleteFiles] = useState([]); //지울 사진파일
   const [Description, setDescription] = useState("");
   const [CurrentTag, setCurrentTag] = useState(""); //현재 작성중인 태그
   const [Tags, setTags] = useState([]); //작성한 태그들 배열
-  const [Files, setFiles] = useState([]);
   const [Thumbnails, setThumbnails] = useState([]);
 
   useEffect(() => {
     dispatch(getPostDetail(postid)).then((res) => {
       setTitle(res.payload.title);
-      setPhotos(res.payload.files);
+      setFiles(res.payload.files);
+      setDeleteFiles(res.payload.files); //앞으로 삭제할 포토들
       setDescription(res.payload.description);
       setTags(res.payload.tags);
-    },[]);
+    }, []);
 
     //썸네일 주소 삭제
     return () => {
@@ -75,10 +77,10 @@ function PostModify(props) {
   //파일저장 및 썸네일 생성
   const onDrop = (files) => {
     //원래 올렸었던 파일 포함 최대 업로드개수 제한
-    if (files.length + Photos.length > 6) {
+    if (files.length + Files.length > 6) {
       alert("파일은 최대 6개까지 업로드 할 수 있습니다.");
     } else {
-      setFiles(files);
+      setNewFiles(files);
       setThumbnails(files.map((file) => URL.createObjectURL(file)));
     }
   };
@@ -109,7 +111,7 @@ function PostModify(props) {
   const OnFileUpload = (e) => {
     e.preventDefault();
 
-    const allFiles = [...Photos, ...Files];
+    const allFiles = [...Files, ...NewFiles];
 
     if (!Title) {
       alert("제목이 필요합니다!");
@@ -123,6 +125,12 @@ function PostModify(props) {
       allFiles.forEach((file) => {
         formdata.append("photos", file);
       });
+
+      //지울 파일이름들 추가
+      if (DeleteFiles)
+        DeleteFiles.forEach((files) => {
+          formdata.append("deletedFiles", files);
+        });
 
       if (Description) formdata.append("description", Description);
       if (Tags.length > 0) {
@@ -140,6 +148,20 @@ function PostModify(props) {
           alert("게시물 수정에 실패했습니다.");
         }
       });
+    }
+  };
+
+  let DoubleSubmit = true;
+
+  //중복 제출 방지
+  const BlockDoubleSubmit = (e) => {
+    //첫 제출
+    if (DoubleSubmit) {
+      OnFileUpload(e);
+      DoubleSubmit = false;
+    } else {
+      alert("제출 중 입니다");
+      return false;
     }
   };
 
@@ -213,8 +235,8 @@ function PostModify(props) {
               }}
             >
               {/* 사진들 보여주기 */}
-              {Photos
-                ? Photos.map((photo) => (
+              {Files
+                ? Files.map((photo) => (
                     <div
                       style={{
                         display: "flex",
@@ -238,8 +260,9 @@ function PostModify(props) {
                         onClick={(e) => {
                           e.preventDefault();
                           const deleteId = photo._id;
-                          setPhotos(
-                            Photos.filter((photos) => photos._id !== deleteId)
+                          setDeleteFiles([...DeleteFiles, photo.filename]);
+                          setFiles(
+                            Files.filter((photos) => photos._id !== deleteId)
                           );
                         }}
                       >
@@ -299,7 +322,7 @@ function PostModify(props) {
             >
               {ThumbnailView}
             </div>
-            <button type='button' onClick={OnFileUpload}>
+            <button type='submit' type='button' onClick={BlockDoubleSubmit}>
               올리기
             </button>
           </div>

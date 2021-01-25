@@ -4,6 +4,7 @@ import {
   UPLOAD_FAILURE,
   GET_POSTDETAIL,
   GET_USERPOSTS,
+  GET_FAVORITEPOSTS,
   GET_ALLPOST,
   MODIFY_SUCCESS,
   MODIFY_FAILURE,
@@ -22,6 +23,10 @@ export default function (state = {}, action) {
 
     case GET_USERPOSTS:
       return { ...state, myPosts: action.payload };
+      break;
+
+    case GET_FAVORITEPOSTS:
+      return { ...state, myFavoritePosts: action.payload };
       break;
 
     case GET_POSTDETAIL:

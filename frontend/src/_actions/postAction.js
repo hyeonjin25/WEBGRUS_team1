@@ -3,6 +3,7 @@ import { SERVER_API } from "./config";
 import {
   UPLOAD_SUCCESS,
   UPLOAD_FAILURE,
+  GET_FAVORITEPOSTS,
   GET_USERPOSTS,
   GET_POSTDETAIL,
   GET_ALLPOST,
@@ -41,6 +42,17 @@ export function getUserposts(userid) {
     .then((res) => res.data);
   return {
     type: GET_USERPOSTS,
+    payload: request,
+  };
+}
+
+// 해당 유저가 좋아요한 포스트 정보받기
+export function getFavoriteposts(userid) {
+  const request = axios
+    .get(`${SERVER_API}/api/posts/favorites/${userid}`)
+    .then((res) => res.data);
+  return {
+    type: GET_FAVORITEPOSTS,
     payload: request,
   };
 }

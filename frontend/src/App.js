@@ -30,7 +30,7 @@ function App() {
             <Route exact path='/postDetail/:postid' component={Auth(PostDetail,null)} />
             <Route exact path='/postModify/:postid' component={Auth(PostModify,true)} />
             <Route exact path='/userDetail/:userid' component={Auth(UserDetail,null)} />
-            <Route exact path='/search/:query' component={Auth(SearchPage,null)} />
+            <Route exact path='/search' component={Auth(SearchPage,null)} />
           </Switch>
         </div>
         <Footer />

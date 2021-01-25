@@ -31,7 +31,7 @@ export const authenticationCheck = () => (dispatch) => {
   }
 
   return axios
-    .post(`${SERVER_API}/api/auth/check`)
+    .get(`${SERVER_API}/api/auth/check`)
     .then((res) => {
       dispatch({
         type: AUTH_SUCCESS,

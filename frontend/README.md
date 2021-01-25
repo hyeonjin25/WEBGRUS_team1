@@ -20,11 +20,13 @@ component/bar/Navbar.js
 - 컴포넌트:
   - 오른쪽 기능 컴포넌트 : component/Rightnav.js
   - 유저메뉴 컴포넌트 : component/menubar.js (Rightnav.js에서 사용)
+  - 검색바 컴포넌트 : component/SearchComponent.js (Rightnav.js에서 사용)
 
 component/Rightnav.js
 
 - 로그인 했을 경우 : 디자인 올리기, 유저메뉴(마이페이지, 로그아웃) 버튼 띄움
 - 로그인 하지 않았을 경우 : 로그인, 회원가입 버튼 띄움
+- 검색 바 : 제목, 내용, 제목 + 내용, 글 작성자, 태그 로 검색 가능
 
 component/menubar.js
 
@@ -74,6 +76,11 @@ routes/Mypage.js
   - 자신이 업로드한 게시물들 모아 볼 수 있음
 - 컴포넌트:
   - 각각의 게시물 컴포넌트 : component/Post.js (메인페이지에서 부른 컴포넌트와 동일)
+  - 로딩 컴포넌트 : component/Loading.js
+
+Loading.js
+
+- 로딩중일 때 띄울 컴포넌트
 
 #### 4. 파일 상세보기 페이지
 
@@ -119,7 +126,13 @@ routes/PostModify.js
 - 기능:
   - 게시물의 제목, 작품설명, 태그, 이미지 변경 가능 (게시물 업로드 페이지와 비슷)
 
-#### 7. 검색 페이지 (미구현)
+#### 7. 검색 페이지
+
+routes/SearchPage.js
+
+- 검색바에서 검색을 시도했을 시 접근 가능
+- 기능:
+  - 검색결과 보기
 
 #### 8. 로그인 페이지
 

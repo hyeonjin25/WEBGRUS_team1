@@ -4,8 +4,12 @@ import { IS_FOLLOW, FOLLOW_TOGGLE } from "./types";
 
 //팔로우 여부 확인
 export function isFollow(userid) {
+  const token = localStorage.getItem("token");
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
   const request = axios
-    .get(`${SERVER_API}/api/users/following/${userid}`)
+    .get(`${SERVER_API}/api/users/following/${userid}`, config)
     .then((res) => res.data);
   return {
     type: IS_FOLLOW,

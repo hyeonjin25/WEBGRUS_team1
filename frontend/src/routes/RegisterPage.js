@@ -10,7 +10,7 @@ import Container from "@material-ui/core/Container";
 import { registerUser } from "../_actions/authAction";
 
 import { useHistory } from "react-router-dom";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -30,24 +30,16 @@ const useStyles = makeStyles((theme) => ({
 
 function SignUp(props) {
   const history = useHistory();
-  const auth = props.auth;
+  const dispatch = useDispatch();
 
   const classes = useStyles();
 
-  const [Firstname, setFirstname] = useState("");
-  const [Lastname, setLastname] = useState("");
   const [Id, setId] = useState("");
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [Passwordcheck, setPasswordcheck] = useState("");
   const [Passwordchecking, setPasswordchecking] = useState(true);
 
-  const onFirstname = (e) => {
-    setFirstname(e.target.value);
-  };
-  const onLastname = (e) => {
-    setLastname(e.target.value);
-  };
   const onId = (e) => {
     setId(e.target.value);
   };
@@ -66,25 +58,18 @@ function SignUp(props) {
   const onSubmit = async (e) => {
     e.preventDefault();
     let body = {
-      // username: {
-      //
-      //   lastname: Lastname,
-      // },
-      firstname: Firstname,
       userid: Id,
       useremail: Email,
       password: Password,
     };
 
     //액션
-    await props.registerUser(body).then((res) => {
+    await dispatch(registerUser(body)).then((res) => {
       if (res) {
         alert("회원가입을 축하합니다! 사이트를 이용하시려면 로그인해주세요.");
         history.push("/login");
       } else {
         alert("회원가입에 실패했습니다");
-        setFirstname("");
-        setLastname("");
         setId("");
         setEmail("");
         setPassword("");
@@ -102,31 +87,6 @@ function SignUp(props) {
         </Typography>
         <form className={classes.form} onSubmit={onSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <TextField
-                autoComplete='fname'
-                value={Firstname}
-                variant='outlined'
-                required
-                fullWidth
-                id='firstname'
-                label='이름'
-                autoFocus
-                onChange={onFirstname}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                autoComplete='fname'
-                value={Lastname}
-                variant='outlined'
-                required
-                fullWidth
-                id='lastname'
-                label='성'
-                onChange={onLastname}
-              />
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 variant='outlined'
@@ -194,7 +154,7 @@ function SignUp(props) {
           </Button>
           <Grid container justify='flex-end'>
             <Grid item>
-              <Link href='#' variant='body2'>
+              <Link href='/login' variant='body2'>
                 이미 계정이 있나요? 로그인
               </Link>
             </Grid>
@@ -205,8 +165,4 @@ function SignUp(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-
-export default connect(mapStateToProps, { registerUser })(SignUp);
+export default SignUp;

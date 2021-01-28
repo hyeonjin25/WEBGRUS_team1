@@ -31,7 +31,7 @@ export const authenticationCheck = () => (dispatch) => {
   }
 
   return axios
-    .get(`${SERVER_API}/api/auth/check`)
+    .get(`${SERVER_API}/api/auth`)
     .then((res) => {
       dispatch({
         type: AUTH_SUCCESS,
@@ -58,7 +58,7 @@ export const loginUser = (data) => (dispatch) => {
   });
 
   return axios
-    .post(`${SERVER_API}/api/auth/login`, data)
+    .post(`${SERVER_API}/api/auth`, data)
     .then((res) => {
       dispatch({
         type: LOGIN_SUCCESS,

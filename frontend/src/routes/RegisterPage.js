@@ -124,7 +124,6 @@ function SignUp(props) {
                 fullWidth
                 id='lastname'
                 label='성'
-                autoFocus
                 onChange={onLastname}
               />
             </Grid>

@@ -30,13 +30,29 @@ function PostDetail(props) {
     });
   }, []);
 
-
-    let year = Posttime.substring(0, 4);
-    let month = Posttime.substring(5, 7);
-    let date = Posttime.substring(8, 10);
+  let year = Posttime.substring(0, 4);
+  let month = Posttime.substring(5, 7);
+  let date = Posttime.substring(8, 10);
 
   //포스트 시간 스트링
-  const posttimeView =`Date: ${year}. ${month}. ${date}.`
+  const posttimeView = `Date: ${year}. ${month}. ${date}.`;
+
+  //댓글 추가 업데이트
+  const updateUploadComment = (newComment) => {
+    setComments(Comments.concat(newComment));
+  };
+
+  //댓글 수정 업데이트
+  const updateModifyComment = () => {
+    dispatch(getPostDetail(postid)).then((res) => {
+      setComments(res.payload.comments);
+    });
+  };
+
+  //댓글 삭제 업데이트
+  const updateDeleteComment = (commentid) => {
+    setComments(Comments.filter((comment) => comment._id !== commentid));
+  };
 
   const postButton = () => {
     //내가 올린 포스트인 경우 수정 및 삭제 버튼 나오게
@@ -98,16 +114,22 @@ function PostDetail(props) {
         }}
       >
         <ViewPostDetail
-        postid={Post._id}
-        title={Post.title}
-        description={Post.description}
-        files={Post.files}
-        tags={Post.tags}
-        posttime={posttimeView}
-        likecnt={Post.likecnt}
-        viewcnt={Post.viewcnt}
+          postid={Post._id}
+          title={Post.title}
+          description={Post.description}
+          files={Post.files}
+          tags={Post.tags}
+          posttime={posttimeView}
+          likecnt={Post.likecnt}
+          viewcnt={Post.viewcnt}
         />
-        <CommentComponent postid={postid} comments={Comments} />
+        <CommentComponent
+          postid={postid}
+          comments={Comments}
+          updateUploadComment={updateUploadComment}
+          updateModifyComment={updateModifyComment}
+          updateDeleteComment={updateDeleteComment}
+        />
       </div>
     </>
   );

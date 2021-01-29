@@ -4,7 +4,7 @@ import { UPDATE_COMMENT, MODIFY_COMMENT, DELETE_COMMENT } from "./types";
 
 
 //포스트 댓글 추가
-export function updateComment({postid, body}) {
+export function uploadComment({postid, body}) {
   const request = axios
     .post(`${SERVER_API}/api/posts/${postid}/comments`, body)
     .then((res) => res.data);

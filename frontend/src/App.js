@@ -5,7 +5,7 @@ import Footer from "./component/bar/Footer";
 import Main from "./routes/Main";
 import LoginPage from "./routes/LoginPage";
 import RegisterPage from "./routes/RegisterPage";
-import Mypage from "./routes/Mypage";
+import Mypage from "./routes/Mypage/Mypage";
 import Newpost from "./routes/Newpost";
 import PostDetail from "./routes/PostDetail";
 import PostModify from "./routes/PostModify";

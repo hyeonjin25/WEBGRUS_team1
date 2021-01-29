@@ -1,26 +1,30 @@
 import React, { useState } from "react";
 import { useDispatch, connect } from "react-redux";
-import { uploadComment, modifyComment, deleteComment } from "../_actions/commentAction";
+import {
+  uploadComment,
+  modifyComment,
+  deleteComment,
+} from "../_actions/commentAction";
 
 import { getPostDetail } from "../_actions/postAction";
 
 function CommentComponent(props) {
   const Comments = props.comments;
   const [CommentValue, setCommentValue] = useState(""); //댓글 입력값
-  const [ModifyComment, setModifyComment] = useState(""); //수정하는 댓글 입력값
+  const [ModifyComment, setModifyComment] = useState(""); //수정하는 댓글 아이디
+  const [ModifyCommentValue, setModifyCommentValue] = useState(""); //수정하는 댓글 입력값
   const [IsModify, setIsModify] = useState(false);
 
   const dispatch = useDispatch();
   const auth = props.auth;
   const postid = props.postid;
 
-  console.log(props);
   const onChangeComment = (e) => {
     setCommentValue(e.target.value);
   };
 
   const onChangeModifyComment = (e) => {
-    setModifyComment(e.target.value);
+    setModifyCommentValue(e.target.value);
   };
 
   //댓글 시간 스트링
@@ -58,9 +62,10 @@ function CommentComponent(props) {
     console.log(commentid);
     //수정할 댓글 찾기
     for (let i = 0; i < Comments.length; i++) {
+      // 수정할 댓글인 경우
       if (Comments[i]._id === commentid) {
         setModifyComment(Comments[i]._id);
-        console.log(Comments[i].content);
+        setModifyCommentValue(Comments[i].content);
         break;
       }
     }
@@ -72,13 +77,13 @@ function CommentComponent(props) {
   const onModifySubmit = (e) => {
     e.preventDefault();
 
-    const body = { content: ModifyComment };
+    const body = { content: ModifyCommentValue };
     let commentid = ModifyComment;
+
     dispatch(modifyComment({ postid, commentid, body }))
       .then((res) => {
         props.updateModifyComment();
         setIsModify(false);
-        console.log(res)
       })
       .catch((err) => {
         console.log(err);
@@ -101,44 +106,17 @@ function CommentComponent(props) {
   //댓글 작성 창
   const writeComment = (
     <div>
-      {IsModify === false ? (
-        <>
-          <input
-            style={{ width: "900px", height: "100px" }}
-            type='textarea'
-            name='Comment'
-            value={CommentValue}
-            onChange={onChangeComment}
-          />
-          {/* 댓글 올리기 버튼 */}
-          <button type='button' onClick={onSubmit}>
-            댓글
-          </button>
-        </>
-      ) : (
-        <>
-          <input
-            style={{ width: "900px", height: "100px" }}
-            type='textarea'
-            name='Comment'
-            value={ModifyComment}
-            onChange={onChangeModifyComment}
-          />
-          {/* 댓글 올리기 버튼 */}
-          <button type='button' onClick={onModifySubmit}>
-            수정
-          </button>
-          <button
-            type='button'
-            onClick={(e) => {
-              e.preventDefault();
-              setIsModify(false);
-            }}
-          >
-            취소
-          </button>
-        </>
-      )}
+      <input
+        style={{ width: "900px", height: "100px" }}
+        type='textarea'
+        name='Comment'
+        value={CommentValue}
+        onChange={onChangeComment}
+      />
+      {/* 댓글 올리기 버튼 */}
+      <button type='button' onClick={onSubmit}>
+        댓글
+      </button>
     </div>
   );
 
@@ -156,24 +134,57 @@ function CommentComponent(props) {
                 style={{ borderStyle: "solid", margin: "5px" }}
                 key={comment._id}
               >
-                <div>작성자: {comment.owner} </div>
-                <div>{comment.content} </div>
-                <div>{commentTime(comment.posttime)} </div>
-                {/* 내가 작성한 댓글일 때만 수정, 삭제 버튼 나타남 */}
-                {auth.userData && auth.userData.userid === comment.owner ? (
-                  <div>
-                    <button type='button' onClick={(e)=>onmodify(comment._id)}>
+                {/* 수정할 댓글인 경우 수정창 로드 */}
+                {IsModify && comment._id === ModifyComment ? (
+                  <>
+                    <input
+                      style={{ width: "900px", height: "100px" }}
+                      type='textarea'
+                      name='Comment'
+                      value={ModifyCommentValue}
+                      onChange={onChangeModifyComment}
+                    />
+                    {/* 댓글 올리기 버튼 */}
+                    <button type='button' onClick={onModifySubmit}>
                       수정
                     </button>
                     <button
                       type='button'
-                      onClick={(e) => ondelete(e, comment._id)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setIsModify(false);
+                      }}
                     >
-                      삭제
+                      취소
                     </button>
-                  </div>
-                ) : (
-                  ""
+                  </>
+                ) : 
+                (
+                  // 수정하는 댓글이 아닐 경우 댓글 로드
+                  <>
+                    <div>작성자: {comment.owner} </div>
+                    <div>{comment.content} </div>
+                    <div>{commentTime(comment.posttime)} </div>
+                    {/* 내가 작성한 댓글일 때만 수정, 삭제 버튼 나타남 */}
+                    {auth.userData && auth.userData.userid === comment.owner ? (
+                      <div>
+                        <button
+                          type='button'
+                          onClick={(e) => onmodify(comment._id)}
+                        >
+                          수정
+                        </button>
+                        <button
+                          type='button'
+                          onClick={(e) => ondelete(e, comment._id)}
+                        >
+                          삭제
+                        </button>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </>
                 )}
               </div>
             ))
@@ -200,6 +211,8 @@ function CommentComponent(props) {
             overflowY: "auto",
           }}
         >
+
+          {/* 댓글이 없을경우와 있을경우 다르게 로드 */}
           {Comments.length === 0 ? (
             <div>댓글이 없습니다...</div>
           ) : (

@@ -57,7 +57,6 @@ function Mypage(props) {
   //선택한 메뉴에 따라 창 로드
   const LoadByMenu = () => {
     if (Menu === "myposts") {
-      console.log("mypost");
       return (
         <ViewPosts
           posts={MyPosts}
@@ -106,6 +105,8 @@ function Mypage(props) {
             회원 탈퇴
           </button>
         </div>
+
+        {/* 메뉴 */}
         <div
           style={{
             display: "flex",
@@ -118,6 +119,7 @@ function Mypage(props) {
       </div>
     );
   } else {
+    // 로딩중
     return <Loading />;
   }
 }

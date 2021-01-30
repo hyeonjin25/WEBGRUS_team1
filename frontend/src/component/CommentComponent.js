@@ -27,6 +27,14 @@ function CommentComponent(props) {
     setModifyCommentValue(e.target.value);
   };
 
+  const onUploadKeyPress = (e) => {
+    if (e.key === "Enter") onSubmit(e);
+  };
+
+  const onModifyPress = (e) => {
+    if (e.key === "Enter") onModifySubmit(e);
+  };
+
   //댓글 시간 스트링
   const commentTime = (time) => {
     let year = time.substring(0, 4);
@@ -92,15 +100,18 @@ function CommentComponent(props) {
 
   //댓글 삭제 요청
   const ondelete = (e, commentid) => {
-    e.preventDefault();
+    let Confirm = window.confirm("정말로 삭제하시겠습니까?");
+    if (Confirm) {
+      e.preventDefault();
 
-    dispatch(deleteComment({ postid, commentid }))
-      .then((res) => {
-        props.updateDeleteComment(commentid);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      dispatch(deleteComment({ postid, commentid }))
+        .then((res) => {
+          props.updateDeleteComment(commentid);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   //댓글 작성 창
@@ -112,6 +123,7 @@ function CommentComponent(props) {
         name='Comment'
         value={CommentValue}
         onChange={onChangeComment}
+        onKeyPress={onUploadKeyPress}
       />
       {/* 댓글 올리기 버튼 */}
       <button type='button' onClick={onSubmit}>
@@ -143,6 +155,7 @@ function CommentComponent(props) {
                       name='Comment'
                       value={ModifyCommentValue}
                       onChange={onChangeModifyComment}
+                      onKeyPress={onModifyPress}
                     />
                     {/* 댓글 올리기 버튼 */}
                     <button type='button' onClick={onModifySubmit}>
@@ -158,8 +171,7 @@ function CommentComponent(props) {
                       취소
                     </button>
                   </>
-                ) : 
-                (
+                ) : (
                   // 수정하는 댓글이 아닐 경우 댓글 로드
                   <>
                     <div>작성자: {comment.owner} </div>
@@ -211,7 +223,6 @@ function CommentComponent(props) {
             overflowY: "auto",
           }}
         >
-
           {/* 댓글이 없을경우와 있을경우 다르게 로드 */}
           {Comments.length === 0 ? (
             <div>댓글이 없습니다...</div>

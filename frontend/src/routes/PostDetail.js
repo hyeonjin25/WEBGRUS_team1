@@ -16,15 +16,14 @@ function PostDetail(props) {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
 
-  const [Owner, setOwner] = useState("");
   const [Post, setPost] = useState([]);
   const [Posttime, setPosttime] = useState("");
   const [Comments, setComments] = useState([]);
 
   useEffect(() => {
     dispatch(getPostDetail(postid)).then((res) => {
+      console.log(res)
       setPost(res.payload);
-      setOwner(res.payload.owner);
       setPosttime(res.payload.posttime);
       setComments(res.payload.comments);
     });
@@ -56,7 +55,7 @@ function PostDetail(props) {
 
   const postButton = () => {
     //내가 올린 포스트인 경우 수정 및 삭제 버튼 나오게
-    if (auth.userData && auth.userData.userid === Owner) {
+    if (auth.userData && auth.userData.userid === Post.owner) {
       return (
         <div style={{ marginLeft: "200px" }}>
           <button
@@ -70,15 +69,18 @@ function PostDetail(props) {
           <button
             name='delete'
             onClick={(e) => {
-              e.preventDefault();
+              let Confirm = window.confirm('정말로 삭제하시겠습니까?')
+              if(Confirm){
+                e.preventDefault();
               dispatch(postDelete(postid)).then((response) => {
                 //삭제 성공시 마이페이지로 이동
                 if (response) {
                   history.push(`/mypage`);
                 } else {
-                  alert("포스트 삭제에 실패했습니다.");
+                  alert("게시물 삭제에 실패했습니다.");
                 }
               });
+              }
             }}
           >
             삭제
@@ -94,8 +96,8 @@ function PostDetail(props) {
             <div style={{ height: "100vh" }}></div>
           ) : (
             <div style={{ marginLeft: "150px" }}>
-              <h2>{Owner}</h2>
-              <FollowComponent userid={Owner} />
+              <h2>{Post.owner}</h2>
+              <FollowComponent userid={Post.owner} />
             </div>
           )}
         </>
@@ -122,6 +124,7 @@ function PostDetail(props) {
           posttime={posttimeView}
           likecnt={Post.likecnt}
           viewcnt={Post.viewcnt}
+          commentcnt={Post.commentcnt}
         />
         <CommentComponent
           postid={postid}

@@ -6,15 +6,17 @@ import "slick-carousel/slick/slick-theme.css";
 import "../component/_slick-theme.css";
 
 //PostDetail 페이지의 해당 포스트 보여주기
-function ViewPostDetail({ postid,
+function ViewPostDetail({
+  postid,
   title,
   description,
   files,
   tags,
   posttime,
   likecnt,
-  viewcnt}) {
-
+  viewcnt,
+  commentcnt,
+}) {
   const slickSettings = {
     dots: true,
     infinite: false,
@@ -25,60 +27,66 @@ function ViewPostDetail({ postid,
   };
 
   return (
+    <div
+      style={{
+        borderStyle: "solid",
+        width: 900,
+        margin: "5px 5px 5px 10px",
+      }}
+    >
       <div
         style={{
-          borderStyle: "solid",
-          width: 900,
-          margin: "5px 5px 5px 10px",
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", flexDirection:'column' }}>
-          {/* 사진들 보여주기 - 사진 여러개면 slick사용 */}
+        {/* 사진들 보여주기 - 사진 여러개면 slick사용 */}
 
-          {/* <Slider
+        {/* <Slider
               {...slickSettings}
               style={{
                 borderStyle: "solid",
                 width: 500,
               }}
             > */}
-          {files
-            ? files.map((file) => (
-                <div key={file._id}>
-                  <img
-                    src={`${SERVER_API}/images/${file.filename}`}
-                    style={{
-                      width: 500,
-                      height: 500,
-                    }}
-                  />
-                </div>
-              ))
-            : ""}
-          {/* </Slider> */}
-        </div>
+        {files
+          ? files.map((file) => (
+              <div key={file._id}>
+                <img
+                  src={`${SERVER_API}/images/${file.filename}`}
+                  style={{
+                    width: 500,
+                    height: 500,
+                  }}
+                />
+              </div>
+            ))
+          : ""}
+        {/* </Slider> */}
+      </div>
 
-        <div
-          style={{
-            width: "90%",
-            textOverflow: "ellipsis",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-          }}
-        >
-          <p>{title}</p>
-          <div>{description}</div>
+      <div
+        style={{
+          width: "90%",
+          textOverflow: "ellipsis",
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+        }}
+      >
+        <p>{title}</p>
+        <div>{description}</div>
+        <div>
           <div>
-            <div>
-              {tags ? tags.map((tag) => <div key={tag}>#{tag}</div>) : ""}
-            </div>
+            {tags ? tags.map((tag) => <div key={tag} style={{ display: "inline" }}>#{tag} </div>) : ""}
           </div>
-          <div>Date: {posttime}</div>
-          <div>
-            Like: {likecnt} View: {viewcnt}
-          </div>
+        </div>
+        <div>{posttime}</div>
+        <div>
+          Like: {likecnt} View: {viewcnt} comment: {commentcnt}
         </div>
       </div>
+    </div>
   );
 }
 

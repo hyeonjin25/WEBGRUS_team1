@@ -28,6 +28,7 @@ function ViewPosts({ posts, userid, menu }) {
               likecnt={post.likecnt}
               viewcnt={post.viewcnt}
               commentcnt={post.commentcnt}
+              auth={props.auth.userData}
             />
           </div>
         ))

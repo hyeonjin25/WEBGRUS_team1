@@ -47,6 +47,7 @@ function SearchPage() {
                   likecnt={post.likecnt}
                   viewcnt={post.viewcnt}
                   commentcnt={post.commentcnt}
+                  auth={props.auth.userData}
                 />
               ))}
             </div>

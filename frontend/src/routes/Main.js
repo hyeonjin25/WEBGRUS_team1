@@ -19,7 +19,6 @@ function Main(props) {
       setPosts(res.payload);
     });
   }, []);
-
   const PostSorting = (e, sort) => {
     console.log(sort);
     Axios.get(`${SERVER_API}/api/posts/all?sortby=${sort}`)
@@ -95,6 +94,7 @@ function Main(props) {
                       likecnt={post.likecnt}
                       viewcnt={post.viewcnt}
                       commentcnt={post.commentcnt}
+                      auth={props.auth.userData}
                     />
                   </div>
                 ))
@@ -109,6 +109,7 @@ function Main(props) {
 }
 
 const mapStateToProps = (state) => ({
+  auth:state.auth,
   post: state.post,
 });
 

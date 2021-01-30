@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { isFollow, followToggle } from "../_actions/followAction";
 
@@ -9,14 +9,18 @@ function FollowComponent({ userid }) {
   const [IsFollow, setIsFollow] = useState(false);
 
   useEffect(() => {
-    dispatch(isFollow(userid))
-      .then((res) => {
-        setIsFollow(res.payload.favorite);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    // 파라미터 오면 실행
+    if (userid) {
+      dispatch(isFollow(userid))
+        .then((res) => {
+          setIsFollow(res.payload.following);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [userid]);
 
   const onFollow = () => {
+    //로그인 상태일 때만 팔로우 가능
     if (auth.token) {
       dispatch(followToggle(userid))
         .then((res) => {

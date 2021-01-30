@@ -68,14 +68,18 @@ routes/Newpost.js
 
 #### 3. 마이페이지
 
-routes/Mypage.js
+routes/Mypage/Mypage.js
 
 - 로그인 한 사람만 접근 가능
 - 기능
   - 자신이 업로드한 게시물들을 모아 볼 수 있음
   - 자신이 좋아한 게시물들을 모아 볼 수 있음
-  - 유저 정보를 수정할 수 있음 (미구현)
+  - 유저 정보를 수정할 수 있음
+  - 유저 정보를 삭제할 수 있음
 - 컴포넌트:
+  - 자신이 업로드한 or 좋아한 게시물 보여주는 컴포넌트 : routes/Mypage/ViewPosts.js
+  - 유저 정보 수정 컴포넌트 : routes/Mypage/UserModify.js
+  - 유저 정보 삭제 컴포넌트 : routes/Mypage/UserDelete.js
   - 각각의 게시물 컴포넌트 : component/Post.js (메인페이지에서 부른 컴포넌트와 동일)
   - 로딩 컴포넌트 : component/Loading.js
 

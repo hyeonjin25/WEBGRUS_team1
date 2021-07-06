@@ -77,20 +77,23 @@ backend/typings/
 backend/.npm
 
 # Optional eslint cache
-.eslintcache
+backend/.eslintcache
 
 # Optional REPL history
-.node_repl_history
+backend/.node_repl_history
 
 # Output of 'npm pack'
-*.tgz
+backend/*.tgz
 
 # Yarn Integrity file
-.yarn-integrity
+backend/.yarn-integrity
 
 # dotenv environment variables file
-.env
+backend/.env
 
 # next.js build output
-.next
+backend/.next
+
+# vscode config
+backend/.vscode
 

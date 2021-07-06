@@ -1,0 +1,36 @@
+.nav {
+  ul {
+    display: flex;
+  }
+  li {
+    all: unset;
+    margin-right: 20px;
+  }
+  a {
+    color: white;
+    font-family: "noto";
+    font-weight: 700;
+    text-shadow: -1px 0 black, 1px 0 black, 0 1px black, 0 -1px black;
+  }
+  a:hover {
+    color: black;
+    text-shadow: -1px 0 white, 1px 0 white, 0 1px white, 0 -1px white;
+  }
+  button {
+    all: unset;
+  }
+  button:hover {
+    font-weight: 900;
+  }
+  .mymenu {
+    margin-right: 30px;
+    color: white;
+    font-family: "noto";
+    font-weight: 700;
+    text-shadow: -2px 0 black, 2px 0 black, 0 2px black, 0 -2px black;
+  }
+  .mymenu:hover {
+    color: black;
+    text-shadow: -2px 0 white, 2px 0 white, 0 2px white, 0 -2px white;
+  }
+}

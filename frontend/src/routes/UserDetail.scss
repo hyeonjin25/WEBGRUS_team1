@@ -1,0 +1,57 @@
+.userdetail-container {
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .top-menu {
+        
+        display: flex;
+        flex-direction: row;
+    
+        width: 60vw;
+        min-width: 400px;
+        max-width: 1200px;
+    
+        .btn-container {
+
+            min-width: 100px;
+    
+            .top-btn {
+                font-family: "noto";
+                font-style: normal;
+                font-weight: 500;
+                font-size: 16px;
+                color: white;
+                
+                min-width: 100px;
+                height: 27px;
+    
+                background: #000000;
+                border: 2px solid #000000;
+            }
+        
+            .btn-bottom {
+                height: 3px;
+                border: 2px solid #000000;
+            }
+        }
+
+        .btn-container-top {
+            margin-bottom: 15px;
+            margin-right: 15px;
+        }
+    
+        h2 {
+            font-family: 'notoBold';
+            font-style: normal;
+            font-weight: 900;
+            font-size: 30px;
+        }
+    
+        .follow {
+            align-self: center;
+            margin-left: 15px;
+        }
+    }
+};

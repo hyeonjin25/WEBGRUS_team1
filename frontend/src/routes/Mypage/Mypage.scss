@@ -1,0 +1,109 @@
+.mypage-container {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .top-menu {
+
+        width: 55vw;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        @media ( min-width: 1024px ) {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        margin: {
+            top: 20px;
+            bottom: 20px;
+        };
+
+        .left {
+            button {
+                font-family: 'noto';
+                font-style: normal;
+                font-weight: 900;
+                font-size: 18px;
+                background-color: #EEEEEE;
+            }
+
+            .separator {
+
+                height: 18px;
+                margin-left: 10px;
+                margin-right: 10px;
+
+                border-left: {
+                    style: solid;
+                    color: #000000;
+                    width: 1px;
+                }
+            }
+        }
+
+        .right {
+            
+            margin-top: 5px;
+            @media ( min-width: 1024px ) {
+                margin-top: 0;
+            }
+
+            button {
+                font-family: 'noto';
+                font-style: normal;
+                font-weight: 900;
+                font-size: 18px;
+                background-color: #EEEEEE;
+            }
+
+            .separator {
+
+                height: 18px;
+                margin-left: 10px;
+                margin-right: 10px;
+
+                border-left: {
+                    style: solid;
+                    color: #000000;
+                    width: 1px;
+                }
+            }
+        }
+    }
+
+    .main {
+        .mypage-content {
+            width: 60vw;
+            min-width: 400px;
+            max-width: 1200px;
+
+            height: fit-content;
+
+            background: #FFFFFF;
+            border: {
+                style: solid;
+                color: #000000;
+                width: 3px;
+            }
+        }
+
+        .bottom {
+            width: 60vw;
+            min-width: 400px;
+            max-width: 1200px;
+            height: 9px;
+    
+            border: {
+                style: solid;
+                color: #000000;
+                width: 3px;
+                top-width: 0;
+            }
+        }
+    }
+}

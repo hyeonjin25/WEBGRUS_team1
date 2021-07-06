@@ -1,0 +1,137 @@
+
+@mixin light-text {
+    font-family: "noto";
+    font-style: normal;
+    font-weight: 200;
+    font-size: 16px;
+    color: #4B4B4B;
+}
+
+.post-container {
+
+    .post {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: space-around;
+
+        width: 60vw;
+        min-width: 400px;
+        max-width: 1200px;
+
+        height: fit-content;
+
+        background: #FFFFFF;
+        border: {
+            style: solid;
+            color: #000000;
+            width: 3px;
+        }
+
+        .photo-container {
+        
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-self: center;
+
+            .photos {
+                margin: {
+                    left: 10%;
+                    right: 10%;
+                    top: 10px;
+                    bottom: 10px;
+                }
+
+                img {
+                    max-width: 100%;
+                    height: auto;
+                }
+            }
+        }
+
+        .info-container {
+        
+            // 작은 화면: info를 여러줄에 표시
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        
+            height: auto;
+            min-height: 100px;
+        
+            // 큰 화면: 주어진 레이아웃대로 표시
+            @media ( min-width: 1024px ) {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                column-gap: 10px;
+                justify-content: stretch;
+            }
+
+            .left-text {
+
+                padding-top: 10px;
+                padding-left: 15px;
+            
+                @media ( min-width: 1024px ) {
+                    justify-self: start;
+                }
+
+                .title-text {
+                    font-family: "notoBold";
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 21px;
+                }
+      
+                .description-text {
+                    padding-top: 10px;
+                    font-family: "noto";
+                    font-style: normal;
+                    font-weight: 300;
+                    font-size: 16px;    
+                }
+            }
+      
+            .right-text {
+
+                padding-top: 10px;
+            
+                @media ( min-width: 1024px ) {
+                    padding-right: 15px;
+                    justify-self: end;
+                }
+
+                .tag-text {
+                    @include light-text;
+                }
+          
+                .date-text {
+                    @include light-text;
+                }
+          
+                .info-text {
+                    @include light-text;
+                }
+            }
+        }
+    }
+
+    .bottom-box {
+
+        width: 60vw;
+        min-width: 400px;
+        max-width: 1200px;
+        height: 9px;
+        
+        border: {
+            style: solid;
+            color: #000000;
+            width: 3px;
+            top-width: 0;
+        }
+    
+    }
+}
+
+

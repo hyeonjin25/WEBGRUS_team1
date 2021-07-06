@@ -1,0 +1,36 @@
+body {
+  font-family: "noto";
+}
+
+div {
+  font-family: "noto";
+}
+
+/* a링크 초기화 */
+a {
+  font-family: "noto";
+  color: #222;
+  text-decoration: none;
+}
+a:hover {
+  font-family: "noto";
+  text-decoration: none;
+}
+
+/* 버튼 초기화 */
+button {
+  font-family: "noto";
+  border: unset;
+}
+button:hover {
+  cursor: pointer;
+  font-weight: 700;
+}
+button:focus {
+  outline: unset;
+  font-weight: 700;
+}
+button:visited {
+  outline: unset;
+  font-weight: 700;
+}

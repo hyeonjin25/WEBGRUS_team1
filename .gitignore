@@ -1,6 +1,12 @@
 # Frontend side
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+#server
+backend/
+
+#proxy
+frontend/src/setupProxy.js
+
 # dependencies
 frontend/node_modules
 frontend/.pnp

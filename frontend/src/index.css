@@ -5,9 +5,20 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #EEEEEE;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+@font-face {
+  font-family: "noto";      
+  src: url("./fonts/NotoSerifKR-Regular.otf");
+}
+
+@font-face {
+  font-family: "notoBold";      
+  src: url("./fonts/NotoSerifKR-Black.otf");
 }
